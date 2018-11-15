@@ -8,25 +8,23 @@ import css from "../css/app.scss"
 // in "webpack.config.js".
 //
 // Import dependencies
-//
-import "phoenix_html"
-
+import "phoenix_html";
 import jQuery from 'jquery';
 window.jQuery = window.$ = jQuery; // Bootstrap requires a global "$" object.
 import "bootstrap";
 import _ from "lodash";
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-//import _ from 'lodash';
-// import logo from './'
-import Facebook from './facebook';
+import Facebook from './components/facebook';
+import { Button, FormGroup, FormControl, ControlLabel } from 'reactstrap';
+import Login from './components/login';
 
 
 
 class App extends Component {
   render(){
-    return(<div><p>MBTA Tracker</p>
-    <Facebook></Facebook></div>);
+    return(<div className="fluid-container">
+    <Login></Login></div>);
   }
 }
 

@@ -1,8 +1,8 @@
 import React, { Component } from  'react';
-import FacebookLogin from 'react-facebook-login';
+import ReactDOM from 'react-dom';
+import GoogleLogin from 'react-google-login';
 
-
-export default class Facebook extends Component {
+export default class Google extends Component {
   state = {
     isLoggedIn: false,
     userID: '',
@@ -12,7 +12,7 @@ export default class Facebook extends Component {
   }
 
   componentClicked = () => console.log("clicked");
-  responseFacebook = response => {
+  responseGoogle = response => {
     this.setState({
       isLoggedIn: true,
       userID: response.userID,
@@ -41,12 +41,12 @@ export default class Facebook extends Component {
       );
 
     } else {
-      fbContent = (<FacebookLogin
-        appId="321890978601866"
-        autoLoad={true}
-        fields="name,email,picture"
-        onClick={this.componentClicked}
-        callback={this.responseFacebook} />);
+      fbContent = (<GoogleLogin
+        clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+        buttonText="Login"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+  />,);
     }
     return (
       <div>
