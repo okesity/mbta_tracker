@@ -20,6 +20,10 @@ defmodule MbtaTrackerWeb.Router do
     resources "/users", UserController
   end
 
+  scope "api/v1", MbtaTrackerWeb do
+    pipe_through :api
+    resources "sessions", SessionController, only: [:create]
+  end
   # Other scopes may use custom stacks.
   # scope "/api", MbtaTrackerWeb do
   #   pipe_through :api

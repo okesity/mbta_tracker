@@ -21,14 +21,14 @@ import Login from './components/login';
 
 
 
-class App extends Component {
-  render(){
-    return(<div className="fluid-container">
-    <Login></Login></div>);
-  }
-}
+// class App extends Component {
+//   render(){
+//     return(<div className="fluid-container">
+//     <Login></Login></div>);
+//   }
+// }
 
-ReactDOM.render(<App /> , document.getElementById('root'));
+//ReactDOM.render(<App /> , document.getElementById('root'));
 
 
 
@@ -37,9 +37,9 @@ ReactDOM.render(<App /> , document.getElementById('root'));
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
 
-// import root_init from "./root";
-//
-// $(() => {
-//   let node = $('#root')[0];
-//   root_init(node);
-// });
+import root_init from "./root";
+
+$(() => {
+  let node = $('#root')[0];
+  root_init(node);
+});

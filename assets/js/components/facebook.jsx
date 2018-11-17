@@ -2,6 +2,8 @@ import React, { Component } from  'react';
 import FacebookLogin from 'react-facebook-login';
 //import TiSocialFacebookCircular from 'react-icons/lib/ti/social-facebook-circular';
 import ReactDOM from 'react-dom';
+import Main from './main';
+import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
 
 
 export default class Facebook extends Component {
@@ -29,16 +31,10 @@ export default class Facebook extends Component {
     let fbContent;
 
     if(this.state.isLoggedIn) {
-      fbContent = (
-        <div style={{
-          width: '400px',
-          margin: 'auto',
-          background: '#f4f4f4',
-          padding: '20px',
-        }}>
-        <img src={ this.state.picture } alt={ this.state.name } />
-        <h2>Welcome { this.state.name }</h2>
-       </div>
+      fbContent = (<div>
+          <img src={ this.state.picture } alt={ this.state.name } />
+              <h2>Welcome { this.state.name }</h2>
+          </div>
       );
 
     } else {
