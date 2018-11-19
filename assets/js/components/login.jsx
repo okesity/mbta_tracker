@@ -22,7 +22,7 @@ export default function Login(props) {
     return (
       <div className="fluid-container">
       <div className="container" style={{width: '400px', height: '600px',
-        backgroundColor: '#DCDCDC', marginTop: '100px'}}>
+        backgroundColor: '#DCDCDC', marginTop: '200px'}}>
       <Form>
       <FormGroup>
         <Label for="email" style={{ marginTop: '20px'}}>Email</Label>
