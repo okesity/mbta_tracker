@@ -7,18 +7,17 @@ import root from '../root';
 import $ from 'jquery';
 
 export default function Login(props) {
-  let {root, sessionCreated} = props;
-  console.log("Check props " + props);
+  let {root, sessionCreated, session} = props;
 
-  function createSession() {
-    let {root, sessionCreated} = props;
-    console.log("Check props " + props);
-    let email = $('login-email').val();
-    let password = $('login-password').val();
-    root.create_session(email, password);
+  function createSession(props) {
+    $(document).ready(function () {
+      var email = $('#login-email').val();
+      var password = $('#login-password').val();
+      root.createSession(email, password);
+      console.log(email);
+      console.log(password);
+    })
   }
-
-
 
     return (
       <div className="fluid-container">
@@ -27,19 +26,20 @@ export default function Login(props) {
       <Form>
       <FormGroup>
         <Label for="email" style={{ marginTop: '20px'}}>Email</Label>
-        <Input type="email" id="login-email" name="email" id="email" placeholder="@email"></Input>
+        <Input type="email" id="login-email" name="email" placeholder="@email"></Input>
       </FormGroup>
       <FormGroup>
         <Label for="password">Password</Label>
-        <Input type="password" id="login-password" name="password" id="password" placeholder="password"></Input>
+        <Input type="password" id="login-password" name="password" placeholder="password"></Input>
       </FormGroup>
     </Form>
     <Button style={{marginLeft: '40%'}} onClick={createSession}>Login</Button>
-    <p style={{paddingLeft: '35%', paddingTop: '20px'}}>
-      Or Login With
-    </p>
-    <Facebook></Facebook>
   </div>
 </div>
     );
 }
+
+
+// <p style={{paddingLeft: '35%', paddingTop: '20px'}}>
+//   Or Login With
+// </p>

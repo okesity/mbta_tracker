@@ -102,7 +102,6 @@ defmodule MbtaTracker.Users do
     User.changeset(user, %{})
   end
 
-
   def get_user_by_email(email) do
     Repo.get_by(User, email: email)
   end
@@ -112,6 +111,7 @@ defmodule MbtaTracker.Users do
     case Comeonin.Argon2.check_pass(user, password) do
       {:ok, user} -> user
       _else       -> nil
+    end
   end
-  end 
+
 end

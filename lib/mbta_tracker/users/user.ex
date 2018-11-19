@@ -7,6 +7,8 @@ defmodule MbtaTracker.Users.User do
     field :email, :string
     field :name, :string
     field :password_hash, :string
+
+
     field :pw_tries, :integer
     field :pw_last_try, :utc_datetime
 
@@ -20,9 +22,6 @@ defmodule MbtaTracker.Users.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:name, :email, :password_hash])
-    |> validate_confirmation(:password)
-    |> validate_password(:password)
-    |> put_pass_hash()
     |> validate_required([:name, :email, :password_hash])
   end
 
@@ -46,5 +45,5 @@ defmodule MbtaTracker.Users.User do
     {:ok, password}
   end
 
-  def valid_password?(_), do: {:error, "The password is too short"}
+def valid_password?(_), do: {:error, "The password is too short"}
 end
