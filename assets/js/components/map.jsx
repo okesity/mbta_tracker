@@ -10,11 +10,65 @@ export class MapContainer extends Component {
     showInfoWindow: false,
     activeMarker: {},
     selectedPlace: {},
+    currentLocation: {},
+    // initialCenter: {
+    //   lat: position.coords.latitude,
+    //   lng: position.coords.longitude,
+    // },
   };
+
+  loadMap() {
+    if(this.props && this.props.google) {
+      const {lag, lng} = this.state.currentLocation;
+    }
+  }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if(Prevprops.google != this.props.google) {
+  //     this.loadMap();
+  //   }
+  //
+  //   if(prevSate.currentLocation != this.state.currentLocation) {
+  //     this.loadMap();
+  //   }
+  // }
+
+  componentDidMount() {
+    if(this.props.centerAroundCurrentLocation) {
+      if(navigator.geolocation && navigator) {
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            const coords = props.coords;
+            this.setState({
+                 lat: position.coords.latitude,
+                 lng: position.coordes.longitude,
+            });
+          });
+      }
+    }
+    this.loadMap();
+  }
+
+  // getGeoLocation = () => {
+  //   if(navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       position => {
+  //         console.log("position coords", position.coords);
+  //         this.setState(
+  //           selectedPlace = {
+  //             lat: position.coords.latitude,
+  //             lng: position.coordes.longitude,
+  //           }
+  //         )
+  //       }
+  //     )
+  //   }
+  //   this.loadMap();
+  // }
 
   render() {
     return (
-      <Map google={this.props.google} zoom={11} style={{width: '80%', height: '700px;', marginLeft: '-170px'}}>
+      <Map google={this.props.google} zoom={11} style={{width: '80%', height: '700px', marginLeft: '-170px'}}>
 
         <Marker onClick={this.onMarkerClick}
                 name={'Current location'} />

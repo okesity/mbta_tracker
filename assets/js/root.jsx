@@ -6,6 +6,9 @@ import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
 import Main from './components/main';
 import Login from './components/login';
 import $ from 'jquery';
+import Registration from './components/registration';
+import Schedule from './components/schedule';
+import FavoriteStops from './components/favorite_stops';
 
 
 
@@ -33,9 +36,6 @@ class Root extends Component {
      success: (resp) => {
        let state1 = _.assign({}, this.state, { session: resp.data, sessionCreated: true,});
        this.setState(state1);
-       //document.cookie = "email="
-       // console.log("what is state1")
-       // console.log(state1)
      },
      error: (resp) => {
        alert("login failed, please try again")
@@ -51,8 +51,9 @@ class Root extends Component {
      data: null,
      //data: JSON.stringify({email, password}),
      success: (resp) => {
-       let state1 = _.assign({}, this.state, { session: resp.data, sessionCreated: true,});
+       let state1 = _.assign({}, this.state, { session: resp.data, sessionCreated: false,});
        this.setState(state1);
+       console.log("check rep data", rep.data);
        // console.log("what is state1")
        // console.log(state1)
      },
@@ -62,16 +63,89 @@ class Root extends Component {
    });
   }
 
+  createUser(name, email, password, history) {
+    $.ajax("/api/v1/newuser", {
+     method: "post",
+     dataType: "json",
+     contentType: "application/json; charset=UTF-8",
+     //data: null,
+     data: JSON.stringify({name, email, password}),
+     success: (resp) => {
+       console.log("check resp data", resp.data)
+       alert("Your Registration is Successful!")
+      // let new_session = {
+      //   user_email: resp.data.email
+      // }
+      //
+      //  let state2 = _.assign({}, this.state, { session: new_session, sessionCreated: true});
+       // let state1 = _.assign({}, this.state, { sessionCreated: true});
+       //this.setState(state2);
+       // console.log("what is state1")
+       // console.log(state1)
+       history.push('/')
+
+     },
+     error: (resp) => {
+       alert("login failed, please try again")
+     }
+   });
+  }
+
+
+  createOauthUser(name, email, password) {
+    $.ajax("/api/v1/newuser", {
+     method: "post",
+     dataType: "json",
+     contentType: "application/json; charset=UTF-8",
+     //data: null,
+     data: JSON.stringify({name, email, password}),
+     success: (resp) => {
+       console.log("check resp data", resp.data)
+       alert("Your Facebook Login is Successful!")
+      // let new_session = {
+      //   user_email: resp.data.email
+      // }
+      //
+      //  let state2 = _.assign({}, this.state, { session: new_session, sessionCreated: true});
+       // let state1 = _.assign({}, this.state, { sessionCreated: true});
+       //this.setState(state2);
+       // console.log("what is state1")
+       // console.log(state1)
+       //history.push('/')
+
+     },
+     error: (resp) => {
+       alert("login failed, please try again")
+     }
+   });
+  }
+
+
+
   render() {
-    return(<div className="container">
-    <Header root={this}/>
+    return(<div>
       <Router>
         <div>
+        <Header root={this}/>
+        <div className="row">
+          <div className="col-12">
           <Route path="/" exact={true} render={() =>
-            <div>
-              <Main root={this}/>
-            </div>
+            <Main root={this}/>
         } />
+
+        <Route path="/registration" exact={true} render={() =>
+            <Registration root={this} />
+        } />
+
+        <Route path="/schedule" exact={true} render={() =>
+            <Schedule root={this} />
+          } />
+
+        <Route path="/favorite_stops" exact={true} render={() =>
+              <FavoriteStops root={this} />
+          } />
+      </div>
+      </div>
     </div>
     </Router>
   </div>);

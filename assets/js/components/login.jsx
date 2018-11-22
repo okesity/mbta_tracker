@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 import Facebook from './facebook';
 import { Form, FormGroup, Input, Button, Label, NavItem, NavLink } from 'reactstrap';
 import { BrowserRouter, Routes, Router} from 'react-router-dom';
 import root from '../root';
 import $ from 'jquery';
+import Registeration from './registration';
 
 export default function Login(props) {
   let {root, sessionCreated, session} = props;
@@ -34,12 +36,14 @@ export default function Login(props) {
       </FormGroup>
     </Form>
     <Button style={{marginLeft: '40%'}} onClick={createSession}>Login</Button>
+    <Link to="/registration" style={{marginLeft: '20px'}}>Register</Link>
+    <p style={{paddingLeft: '35%', paddingTop: '20px'}}>
+        Or Login With
+    </p>
+    <Facebook root={props.root}/>
   </div>
 </div>
     );
 }
 
-
-// <p style={{paddingLeft: '35%', paddingTop: '20px'}}>
-//   Or Login With
-// </p>
+// dont login with facebook yet.

@@ -22,8 +22,10 @@ defmodule MbtaTracker.Users.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:name, :email, :password_hash])
-    |> validate_required([:name, :email, :password_hash])
+    |> validate_required([:name, :email])
   end
+
+  # validate_required(name, email, pass_hash)
 
   def validate_password(changeset, field, options \\ []) do
     validate_change(changeset, field, fn _, password ->

@@ -2,6 +2,11 @@ import React, { Component } from  'react';
 import ReactDOM from 'react-dom';
 import GoogleLogin from 'react-google-login';
 
+
+// TODO:
+// Get an APP ID.
+// basically the way as facebook to approach. 
+
 export default class Google extends Component {
   state = {
     isLoggedIn: false,

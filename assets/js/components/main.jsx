@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router'
 import Login from './login';
-import FavoriteStops from './favorite_stops';
+import Home from './home';
 
 export default function Main(props){
   let {root, session, sessionCreated} = props;
@@ -15,6 +15,6 @@ export default function Main(props){
   if(root.state.session == null) {
     return <div><Login root={props.root}/></div>;
   } else {
-    return <div><FavoriteStops root={props.root}/></div>;
+    return <div><Home root={props.root}/></div>;
   }
 }
