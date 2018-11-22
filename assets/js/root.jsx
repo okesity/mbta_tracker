@@ -43,6 +43,22 @@ class Root extends Component {
    });
   }
 
+  createOauthSession(name, email) {
+    $.ajax("/api/v1/oauthsessions", {
+     method: "post",
+     dataType: "json",
+     contentType: "application/json; charset=UTF-8",
+     data: JSON.stringify({name, email}),
+     success: (resp) => {
+       let state1 = _.assign({}, this.state, { session: resp.data, sessionCreated: true,});
+       this.setState(state1);
+     },
+     error: (resp) => {
+       alert("login failed, please try again")
+     }
+   });
+  }
+
   deleteSession() {
     $.ajax("/api/v1/sessions", {
      method: "delete",
@@ -53,7 +69,7 @@ class Root extends Component {
      success: (resp) => {
        let state1 = _.assign({}, this.state, { session: resp.data, sessionCreated: false,});
        this.setState(state1);
-       console.log("check rep data", rep.data);
+       console.log("check rep data", resp.data);
        // console.log("what is state1")
        // console.log(state1)
      },

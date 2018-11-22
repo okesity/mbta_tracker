@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import Facebook from './facebook';
+import Google from './google';
 import { Form, FormGroup, Input, Button, Label, NavItem, NavLink } from 'reactstrap';
 import { BrowserRouter, Routes, Router} from 'react-router-dom';
 import root from '../root';
@@ -40,6 +41,10 @@ export default function Login(props) {
     <p style={{paddingLeft: '35%', paddingTop: '20px'}}>
         Or Login With
     </p>
+    <hr />
+    <Facebook root={props.root}/>
+    <br />
+    <Google root={props.root}/>
   </div>
 </div>
     );
@@ -47,4 +52,3 @@ export default function Login(props) {
 
 // TODO:
 // dont login with facebook yet. After complete, move it under login with
-//<Facebook root={props.root}/>

@@ -28,9 +28,11 @@ defmodule MbtaTrackerWeb.Router do
 
   scope "/api/v1", MbtaTrackerWeb do
     pipe_through :api
-    resources "/sessions", SessionController, only: [:create]
+    post "/sessions", SessionController, :create
+    # resources "/sessions", SessionController, only: [:create, :create1]
     delete "/sessions", SessionController, :delete
     post "/newuser", UserController, :create
+    post "/oauthsessions", SessionController, :create1
     # post "/newoauthuser", UserController, :create1
     resources "/users", UserController, except: [:new, :edit]
   end

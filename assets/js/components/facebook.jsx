@@ -24,33 +24,32 @@ export default function Facebook(props) {
      // yes ... createSession
      // No ... createUser and setsession state
     //props.root.createOauthUser(responseFacebook.name, responseFacebook.email, "");
-    let newSession = {
-      token: responseFacebook.accessToken,
-      user_id: responseFacebook.id,
-      user_name: responseFacebook.name,
-      user_email: responseFacebook.email,
-    }
-    props.root.setState({
-      session: newSession,
-      sessionCreate: true,
-    })
+    // let newSession = {
+    //   token: responseFacebook.accessToken,
+    //   user_id: responseFacebook.id,
+    //   user_name: responseFacebook.name,
+    //   user_email: responseFacebook.email,
+    // }
+    // props.root.setState({
+    //   session: newSession,
+    //   sessionCreate: true,
+    // })
     //  TODO:
+
+    props.root.createOauthSession(responseFacebook.name, responseFacebook.email);
     // craete a new session here so that the session in main won't be null.
     // write one more create function specifically for soical oauth login in session controller.
     // if it's necessary, write another createsession function in root.jsx
     //props.root.createSession(responseFacebook.name, responseFacebook.email);
     console.log("check fb data", responseFacebook.email);
     console.log("FB ROOT session", props.root.state.session);
-
-    // TODO:
-    // Logout -> delete the facebook token
   };
 
   let fbContent = (
       <FacebookLogin
         appId="321890978601866"
         autoLoad={false}
-        fields="name,email,picture"
+        fields="name,email"
         onClick={componentClicked}
         cssClass='btnFacebook'
         icon="fa fa-facebook"

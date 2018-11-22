@@ -20,6 +20,24 @@ defmodule MbtaTrackerWeb.SessionController do
       end
   end
 
+  def create1(conn, %{"name" => name, "email" => email}) do
+    result = MbtaTracker.Users.get_user_by_email(email)
+    IO.inspect(result)
+    with %User{} = user <- result do
+      resp = %{
+        data: %{
+          token: Phoenix.Token.sign(MbtaTrackerWeb.Endpoint, "user_id", user.id),
+          user_id: user.id,
+          user_name: user.name,
+          user_email: user.email,
+        }
+      }
+    conn
+    |> put_resp_header("content-type", "application/json; charset=utf-8")
+    |> send_resp(:created, Jason.encode!(resp))
+    end
+  end
+
 
     def delete(conn, _params) do
       conn
