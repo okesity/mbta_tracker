@@ -40,10 +40,11 @@ export default function Login(props) {
     <p style={{paddingLeft: '35%', paddingTop: '20px'}}>
         Or Login With
     </p>
-    <Facebook root={props.root}/>
   </div>
 </div>
     );
 }
 
-// dont login with facebook yet.
+// TODO:
+// dont login with facebook yet. After complete, move it under login with
+//<Facebook root={props.root}/>
