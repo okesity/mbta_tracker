@@ -18,20 +18,6 @@ import ReactDOM from 'react-dom';
 import Facebook from './components/facebook';
 import { Button, FormGroup, FormControl, ControlLabel } from 'reactstrap';
 import Login from './components/login';
-//import 'typeface-roboto';
-
-
-
-// class App extends Component {
-//   render(){
-//     return(<div className="fluid-container">
-//     <Login></Login></div>);
-//   }
-// }
-
-//ReactDOM.render(<App /> , document.getElementById('root'));
-
-
 
 // Import local files
 //

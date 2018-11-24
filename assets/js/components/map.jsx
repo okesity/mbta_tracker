@@ -144,34 +144,34 @@ class MapContainer extends Component {
     else{
       console.log("getting vs");
       this.get_vehicles();
-      
+
     }
   }
 
   render() {
     if (!this.props.loaded) return <div>Loading...</div>;
-      
+
     return (
       <Map
         className="map"
         google={this.props.google}
         onClick={this.onMapClicked}
-        style={{ height: '100%', position: 'relative', width: '100%' }}
+        style={{ height: '700px', position: 'relative', width: '1100px', marginTop: '100px' }}
         zoom={14}
         center={this.state.center}
         >
         <Marker name="Current location" onClick={this.onMarkerClick} position={this.state.center} />
-        
+
         { //mark vehicles on map
-          this.state.vehicles.map(v => 
+          this.state.vehicles.map(v =>
             <Marker position={{lat: v.lat, lng: v.lng}} />)
         }
 
         {
-          this.state.showingStops && this.state.stops.map(v => 
+          this.state.showingStops && this.state.stops.map(v =>
             <Marker position={{lat: v.lat, lng: v.lng}} />)
         }
-        
+
         <Polyline path={this.state.bounds} strokeColor="#008000"/>
         <InfoWindow
           marker={this.state.activeMarker}

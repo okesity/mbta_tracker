@@ -12,14 +12,7 @@ defmodule MbtaTrackerWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
-
-  # pipeline :ajax do
-  #   plug :accepts, ["json"]
-  #   plug :fetch_session
-  #   plug :fetch_flash
-  #   plug TaskTrackerWeb.Plugs.FetchSession # FIXME: "FetchUser"
-  # end
-
+  
   scope "/", MbtaTrackerWeb do
     pipe_through :browser
 
@@ -29,11 +22,10 @@ defmodule MbtaTrackerWeb.Router do
   scope "/api/v1", MbtaTrackerWeb do
     pipe_through :api
     post "/sessions", SessionController, :create
-    # resources "/sessions", SessionController, only: [:create, :create1]
     delete "/sessions", SessionController, :delete
     post "/newuser", UserController, :create
     post "/oauthsessions", SessionController, :create1
-    # post "/newoauthuser", UserController, :create1
+    resources "/favoritestops", FavoritestopController, except: [:new, :edit]
     resources "/users", UserController, except: [:new, :edit]
   end
   # Other scopes may use custom stacks.

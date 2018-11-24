@@ -6,26 +6,8 @@ import Registration from './registration';
 import Schedule from './schedule';
 
 
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-};
-
-
-
-
 export default function Header(props) {
   let {root, session, sessionCreated} = props;
-  console.log("check session in header", root.state.session);
 
   let session_info;
   let ul_info;
@@ -36,7 +18,7 @@ export default function Header(props) {
     console.log("check session after delete", root.state.session);
   }
 
-  if(root.state.session == null || root.state.sessionCreated == false) {
+  if(root.state.session == null) {
     console.log("check root in header", root);
     session_info =  null;
     ul_info = (<ul className="navbar-nav mr-auto">
@@ -51,6 +33,8 @@ export default function Header(props) {
         </NavItem>
       </ul>);
 
+      console.log("root session state", root.state.session)
+      console.log("check session in header", root.state.session);
   } else {
     session_info = <div className="navbar-text">
       <span>{root.state.session.user_email}</span>

@@ -49,6 +49,3 @@ export default function Login(props) {
 </div>
     );
 }
-
-// TODO:
-// dont login with facebook yet. After complete, move it under login with

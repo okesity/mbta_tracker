@@ -9,7 +9,22 @@ import $ from 'jquery';
 import Registration from './components/registration';
 import Schedule from './components/schedule';
 import FavoriteStops from './components/favorite_stops';
+import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
+import { instanceOf } from 'prop-types';
 
+function initSession() {
+  let token = getCookie("token=");
+  let user_id = getCookie("user_id=");
+  let user_name = getCookie("user_name=");
+  //let user_name = getCookie("user_name");
+  let user_email = getCookie("user_email=");
+
+  if(token && user_id && user_name && user_email) {
+      return {token, user_id, user_name, user_email};
+  } else {
+    return null;
+  }
+}
 
 
 export default function root_init(node) {
@@ -21,11 +36,12 @@ class Root extends Component {
     super(props);
     this.state = {
       users: [],
-      session: null,
+      session: initSession(),
       sessionCreated: false,
 
     }
   }
+
 
   createSession(email, password) {
     $.ajax("/api/v1/sessions", {
@@ -35,7 +51,13 @@ class Root extends Component {
      data: JSON.stringify({email, password}),
      success: (resp) => {
        let state1 = _.assign({}, this.state, { session: resp.data, sessionCreated: true,});
+       //let state2 = cookies.set({}. this.state, state1, { path: '/'});
+       document.cookie = "token=" + state1.session.token;
+       document.cookie = "user_id=" + state1.session.user_id;
+       document.cookie = "user_email=" + state1.session.user_email;
+       document.cookie = "user_name=" + state1.session.user_name;
        this.setState(state1);
+       console.log("state1", state1)
      },
      error: (resp) => {
        alert("login failed, please try again")
@@ -51,6 +73,7 @@ class Root extends Component {
      data: JSON.stringify({name, email}),
      success: (resp) => {
        let state1 = _.assign({}, this.state, { session: resp.data, sessionCreated: true,});
+       //document.cookie = "user_id" + this.state.session.state.user_id
        this.setState(state1);
      },
      error: (resp) => {
@@ -65,13 +88,14 @@ class Root extends Component {
      dataType: "json",
      contentType: "application/json; charset=UTF-8",
      data: null,
-     //data: JSON.stringify({email, password}),
      success: (resp) => {
        let state1 = _.assign({}, this.state, { session: resp.data, sessionCreated: false,});
+       document.cookie = "token=";
+       document.cookie = "user_id=";
+       document.cookie = "user_email=";
+       document.cookie = "user_name=";
+
        this.setState(state1);
-       console.log("check rep data", resp.data);
-       // console.log("what is state1")
-       // console.log(state1)
      },
      error: (resp) => {
        alert("login failed, please try again")
@@ -84,22 +108,11 @@ class Root extends Component {
      method: "post",
      dataType: "json",
      contentType: "application/json; charset=UTF-8",
-     //data: null,
      data: JSON.stringify({name, email, password}),
      success: (resp) => {
        console.log("check resp data", resp.data)
        alert("Your Registration is Successful!")
-      // let new_session = {
-      //   user_email: resp.data.email
-      // }
-      //
-      //  let state2 = _.assign({}, this.state, { session: new_session, sessionCreated: true});
-       // let state1 = _.assign({}, this.state, { sessionCreated: true});
-       //this.setState(state2);
-       // console.log("what is state1")
-       // console.log(state1)
-       history.push('/')
-
+       history.push('/');
      },
      error: (resp) => {
        alert("login failed, please try again")
@@ -113,22 +126,10 @@ class Root extends Component {
      method: "post",
      dataType: "json",
      contentType: "application/json; charset=UTF-8",
-     //data: null,
      data: JSON.stringify({name, email, password}),
      success: (resp) => {
        console.log("check resp data", resp.data)
        alert("Your Facebook Login is Successful!")
-      // let new_session = {
-      //   user_email: resp.data.email
-      // }
-      //
-      //  let state2 = _.assign({}, this.state, { session: new_session, sessionCreated: true});
-       // let state1 = _.assign({}, this.state, { sessionCreated: true});
-       //this.setState(state2);
-       // console.log("what is state1")
-       // console.log(state1)
-       //history.push('/')
-
      },
      error: (resp) => {
        alert("login failed, please try again")
@@ -166,4 +167,21 @@ class Root extends Component {
     </Router>
   </div>);
   }
+}
+
+
+function getCookie(name) {
+ //var cname = cname + "=";
+ var decodedCookie = decodeURIComponent(document.cookie);
+ var ca = decodedCookie.split(';');
+ for(var i = 0; i <ca.length; i++) {
+     var c = ca[i];
+     while (c.charAt(0) === ' ') {
+         c = c.substring(1);
+     }
+     if (c.indexOf(name) === 0) {
+         return c.substring(name.length, c.length);
+     }
+ }
+  return "";
 }
