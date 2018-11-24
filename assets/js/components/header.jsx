@@ -17,8 +17,13 @@ export default function Header(props) {
     console.log("logout clicked");
     console.log("check session after delete", root.state.session);
   }
+<<<<<<< HEAD
 
   if(root.state.session == null) {
+=======
+  
+  if(root.state.session == null || root.state.sessionCreated == false) {
+>>>>>>> 71cc6d898446b5a3015f15f87c07d8854a4ac804
     console.log("check root in header", root);
     session_info =  null;
     ul_info = (<ul className="navbar-nav mr-auto">

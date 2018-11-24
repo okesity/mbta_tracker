@@ -3,13 +3,15 @@ import React, { Component } from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper, Polyline} from 'google-maps-react';
 
 var polyline = require('@mapbox/polyline');
+var vehiclehandler;
 
-class MapContainer extends Component {
+class MapElement extends Component {
   constructor(props){
     super(props);
     this.state = {
       activeMarker: {},
       selectedPlace: {},
+      selectedRoute: props.selectedRoute,
       showingInfoWindow: false,
       showingStops: false,
       shape: null,
@@ -18,27 +20,36 @@ class MapContainer extends Component {
       bounds: null,
       center: null
     };
+
     this.get_location = this.get_location.bind(this);
     this.get_shape = this.get_shape.bind(this);
     this.VehicleMarker = this.VehicleMarker.bind(this);
     this.get_stops = this.get_stops.bind(this);
-
+    
+    // if(this.props.selectedRoute!=null)
+    //   this.setState({selectedRoute: this.props.selectedRoute});
     this.get_location();
-    this.get_shape();
     this.get_stops();
+    this.get_shape();
     this.get_vehicles();
   }
 
-  // setStateAsync(state) {
-  //   return new Promise((resolve) => {
-  //     this.setState(state, resolve)
-  //   });
-  // }
-
   componentDidMount() {
-    console.log("refreshing");
-    this.get_vehicles();
-    setInterval(this.get_vehicles.bind(this),5000);  //refresh vehicle data every 1 second
+    console.log("refreshing", this.state.selectedRoute);
+    setInterval(this.get_vehicles.bind(this),5000);
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', nextProps.selectedRoute);
+    if(nextProps.selectedRoute && nextProps.selectedRoute!=this.state.route){
+      let route = nextProps.selectedRoute;
+      this.setState({selectedRoute: route});
+      console.log("received",this.state.selectedRoute);
+      this.get_shape(route);
+      this.get_vehicles(route);
+      //clearInterval(vehiclehandler);
+      //vehiclehandler = setInterval(this.get_vehicles(),5000);  //refresh vehicle data every 1 second
+    }
   }
 
   get_location(){
@@ -58,11 +69,12 @@ class MapContainer extends Component {
   }
 
   //get Green-E shape
-  get_shape(){
-    console.log("getting shape");
-    fetch("https://api-v3.mbta.com/shapes?filter[route]=Green-E")
+  get_shape(route = this.state.selectedRoute){
+    console.log("getting shape", route);
+    fetch("https://api-v3.mbta.com/shapes?filter[route]="+route)
       .then(response => response.json())
       .then(json => {
+          console.log("get shape data", json, route);
           this.set_bounds(json.data);
       })
       .catch(error => console.error('Error:', error));
@@ -70,7 +82,7 @@ class MapContainer extends Component {
 
   //get Green-E stops
   get_stops(){
-    fetch("https://api-v3.mbta.com/stops?filter[route]=Green-E")
+    fetch("https://api-v3.mbta.com/stops?filter[route]="+this.state.selectedRoute)
     .then(response => response.json())
     .then(json => {
         let stops = json.data.map(d => d.attributes);
@@ -83,14 +95,17 @@ class MapContainer extends Component {
   //turn polyline to boundary points
   set_bounds(data){
     console.log("invoked set bounds");
-    let points = polyline.decode(data[2].attributes.polyline);
-    points = points.map(function(point){ return {lat: point[0], lng: point[1]}; });
-    this.setState({bounds: points});
+    if(data.length>0){
+      let points = polyline.decode(data[0].attributes.polyline);
+      points = points.map(function(point){ return {lat: point[0], lng: point[1]}; });
+      this.setState({bounds: points});
+    }
   }
 
-  get_vehicles(){
-    console.log("getting vehicles");
-    fetch("https://api-v3.mbta.com/vehicles?filter[route]=Green-E")
+  get_vehicles(route = this.state.selectedRoute){
+    console.log("getting vehicle", route);
+    if(route){
+      fetch("https://api-v3.mbta.com/vehicles?filter[route]="+route)
       .then(response => response.json())
       .then(json => {
           let v = json.data.map(d => d.attributes);
@@ -98,6 +113,7 @@ class MapContainer extends Component {
           this.setState({vehicles: vehicles_data});
       })
       .catch(error => console.error('Error:', error));
+    }
   }
 
 
@@ -156,7 +172,11 @@ class MapContainer extends Component {
         className="map"
         google={this.props.google}
         onClick={this.onMapClicked}
+<<<<<<< HEAD
         style={{ height: '700px', position: 'relative', width: '1100px', marginTop: '100px' }}
+=======
+        //style={{ height: '100%', position: 'relative', width: '100%' }}
+>>>>>>> 71cc6d898446b5a3015f15f87c07d8854a4ac804
         zoom={14}
         center={this.state.center}
         >
@@ -188,4 +208,4 @@ class MapContainer extends Component {
 
 export default GoogleApiWrapper({
 apiKey: ("AIzaSyBhLvg_Vwoau_QHkCZVz8XtVvzMW8NX86w")
-})(MapContainer)
+})(MapElement)
