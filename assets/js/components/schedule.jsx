@@ -30,18 +30,34 @@ class Schedule extends Component {
     super(props);
     this.state = {
       root: props.root,
+      routes:[],
+      selectedRoute: null,
       stops: [],
-      selectedStops: null,
+      selectedStop: null,
       predictions: [],
     };   
- 
-    this.initStops();
+    //this.getPrediction = this.getPrediction.bind(this);
+    this.initRoutes();
   }
 
-  initStops(){
+  initRoutes(){
+    var routes_data={};
+    fetch("https://api-v3.mbta.com/routes")
+      .then(response => response.json())
+      .then(json => {
+         let routes = json.data.map(function(d){
+           return {attributes: d.attributes, id: d.id};
+         })
+         routes_data = routes.map(function(r) {return {value: r.id, label: r.attributes.long_name}});
+         this.setState({routes: routes_data});
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  getStops(routeID){
     var stops_data=[];
-    console.log("getting routes in schedule, initStops");
-    fetch("https://api-v3.mbta.com/stops")
+    console.log("getting stops in schedule, initStops");
+    fetch("https://api-v3.mbta.com/stops?filter[route]=" + routeID)
       .then(response => response.json())
       .then(json => {
          let stops = json.data.map(function(d){
@@ -53,25 +69,35 @@ class Schedule extends Component {
       .catch(error => console.error('Error:', error));
   }
 
+  handleChangeRoute = (selected)=>{
+    this.setState({selectedRoute: selected.value});
+    this.getStops(selected.value);
+    console.log('changed route', selected);
+  }
 
-  handleChange = (selected)=>{
+  handleChangeStop = (selected)=>{
     this.setState({selectedStop: selected.value});
-    this.getPrediction(selected.value);
+    this.getPrediction(selected);
     console.log('changed stop', selected);
   }
 
-  getPrediction(stopID){
+  getPrediction(stop){
+    var stopID=stop.value;
+    var routeName=this.state.selectedRoute;
     var prediction_data = [];
-    console.log("getting prediction data", stopID);
-    fetch("https://api-v3.mbta.com//predictions?filter[stop]="+stopID)
+    console.log("getting prediction data", stop, this.state.selectedRoute);
+    fetch("https://api-v3.mbta.com/predictions?filter[stop]="+stopID)
     .then(response => response.json())
     .then(json => {
       console.log("get data", json.data);
        let predictions = json.data.map(function(d){
-         return {attributes: d.attributes, relationships: d.relationships};
+           return {attributes: d.attributes, relationships: d.relationships};
        })
-       prediction_data = predictions.map(function(p) {
-         return {arrive: p.attributes.arrival_time, 
+       let route_data=predictions.filter(function(p){
+         return p.relationships.route.data.id==routeName;
+       });
+       prediction_data = route_data.map(function(p) {
+          return {arrive: p.attributes.arrival_time, 
                  depart: p.attributes.departure_time,
                  direction: p.attributes.direction_id,
                  route: p.relationships.route.data.id}
@@ -92,8 +118,14 @@ class Schedule extends Component {
     // else {
       return(<div className="container">
         <h3 style={{marginTop: '50px'}}>Search station to see the schedule</h3>
+        <Select id="selection-routes" isSearchable={true} 
+                options={this.state.routes} onChange={this.handleChangeRoute} 
+                placeholder='Select Route'
+                style={{marginTop: '230px', marginBottom: '100px'}}/>
+
         <Select id="selection-stops" isSearchable={true} 
-                options={this.state.stops} onChange={this.handleChange} 
+                options={this.state.stops} onChange={this.handleChangeStop}
+                placeholder='Select Stop' 
                 style={{marginTop: '230px', marginBottom: '100px'}}/>
         <br />
         <Table>
