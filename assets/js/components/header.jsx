@@ -35,7 +35,7 @@ export default function Header(props) {
     console.log("logout clicked");
     console.log("check session after delete", root.state.session);
   }
-
+  
   if(root.state.session == null || root.state.sessionCreated == false) {
     console.log("check root in header", root);
     session_info =  null;
