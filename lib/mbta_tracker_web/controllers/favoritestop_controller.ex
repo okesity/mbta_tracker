@@ -11,13 +11,27 @@ defmodule MbtaTrackerWeb.FavoritestopController do
     render(conn, "index.json", favoritestops: favoritestops)
   end
 
-  def create(conn, %{"favoritestop" => favoritestop_params}) do
-    with {:ok, %Favoritestop{} = favoritestop} <- Favoritestops.create_favoritestop(favoritestop_params) do
+  # def create(conn, %{"favoritestop" => favoritestop_params}) do
+  #   with {:ok, %Favoritestop{} = favoritestop} <- Favoritestops.create_favoritestop(favoritestop_params) do
+  #     conn
+  #     |> put_status(:created)
+  #     |> put_resp_header("location", Routes.favoritestop_path(conn, :show, favoritestop))
+  #     |> render("show.json", favoritestop: favoritestop)
+  #   end
+  # end
+
+  def create(conn, %{"name" => name}) do
+    favoritestop_params = %{"name" => name}
+    IO.inspect(favoritestop_params)
+    result =  Favoritestops.create_favoritestop(favoritestop_params)
+    IO.inspect(result)
+    with {:ok, %Favoritestop{} = favoritestop} <- result do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.favoritestop_path(conn, :show, favoritestop))
       |> render("show.json", favoritestop: favoritestop)
     end
+    # IO.inspect()
   end
 
   def show(conn, %{"id" => id}) do

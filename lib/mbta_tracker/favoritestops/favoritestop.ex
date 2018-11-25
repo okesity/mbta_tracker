@@ -4,7 +4,7 @@ defmodule MbtaTracker.Favoritestops.Favoritestop do
 
 
   schema "favoritestops" do
-    field :stop_name, :string
+    field :name, :string
     # field :user_id, :id
     belongs_to :user, MbtaTracker.Users.User
 
@@ -14,7 +14,7 @@ defmodule MbtaTracker.Favoritestops.Favoritestop do
   @doc false
   def changeset(favoritestop, attrs) do
     favoritestop
-    |> cast(attrs, [:stop_name, :user_id])
-    |> validate_required([:stop_name, :user_id])
+    |> cast(attrs, [:name, :user_id])
+    |> validate_required([:name])
   end
 end

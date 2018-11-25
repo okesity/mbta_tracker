@@ -3,8 +3,8 @@ defmodule MbtaTracker.Repo.Migrations.CreateFavoritestops do
 
   def change do
     create table(:favoritestops) do
-      add :stop_name, :string, null: false
-      add :user_id, references(:users, on_delete: :nothing), null: false
+      add :name, :string, null: false
+      add :user_id, references(:users, on_delete: :delete_all)
 
       timestamps()
     end

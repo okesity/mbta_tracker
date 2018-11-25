@@ -6,9 +6,9 @@ defmodule MbtaTracker.FavoritestopsTest do
   describe "favoritestops" do
     alias MbtaTracker.Favoritestops.Favoritestop
 
-    @valid_attrs %{stop_name: "some stop_name"}
-    @update_attrs %{stop_name: "some updated stop_name"}
-    @invalid_attrs %{stop_name: nil}
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
 
     def favoritestop_fixture(attrs \\ %{}) do
       {:ok, favoritestop} =
@@ -31,7 +31,7 @@ defmodule MbtaTracker.FavoritestopsTest do
 
     test "create_favoritestop/1 with valid data creates a favoritestop" do
       assert {:ok, %Favoritestop{} = favoritestop} = Favoritestops.create_favoritestop(@valid_attrs)
-      assert favoritestop.stop_name == "some stop_name"
+      assert favoritestop.name == "some name"
     end
 
     test "create_favoritestop/1 with invalid data returns error changeset" do
@@ -41,7 +41,7 @@ defmodule MbtaTracker.FavoritestopsTest do
     test "update_favoritestop/2 with valid data updates the favoritestop" do
       favoritestop = favoritestop_fixture()
       assert {:ok, %Favoritestop{} = favoritestop} = Favoritestops.update_favoritestop(favoritestop, @update_attrs)
-      assert favoritestop.stop_name == "some updated stop_name"
+      assert favoritestop.name == "some updated name"
     end
 
     test "update_favoritestop/2 with invalid data returns error changeset" do

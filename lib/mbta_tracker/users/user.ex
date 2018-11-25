@@ -2,6 +2,9 @@ defmodule MbtaTracker.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias MbtaTracker.Favoritestops.Favoritestop
+  alias MbtaTracker.Favoritestops
+
 
   schema "users" do
     field :email, :string
@@ -15,7 +18,7 @@ defmodule MbtaTracker.Users.User do
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
 
-    has_many :favoritestops, MbtaTracker.FavoriteStops.Favoritestop
+    has_many :favoritestops, MbtaTracker.Favoritestops.Favoritestop
 
     timestamps()
   end

@@ -5,12 +5,12 @@ defmodule MbtaTrackerWeb.FavoritestopControllerTest do
   alias MbtaTracker.Favoritestops.Favoritestop
 
   @create_attrs %{
-    stop_name: "some stop_name"
+    name: "some name"
   }
   @update_attrs %{
-    stop_name: "some updated stop_name"
+    name: "some updated name"
   }
-  @invalid_attrs %{stop_name: nil}
+  @invalid_attrs %{name: nil}
 
   def fixture(:favoritestop) do
     {:ok, favoritestop} = Favoritestops.create_favoritestop(@create_attrs)
@@ -37,7 +37,7 @@ defmodule MbtaTrackerWeb.FavoritestopControllerTest do
 
       assert %{
                "id" => id,
-               "stop_name" => "some stop_name"
+               "name" => "some name"
              } = json_response(conn, 200)["data"]
     end
 
@@ -58,7 +58,7 @@ defmodule MbtaTrackerWeb.FavoritestopControllerTest do
 
       assert %{
                "id" => id,
-               "stop_name" => "some updated stop_name"
+               "name" => "some updated name"
              } = json_response(conn, 200)["data"]
     end
 

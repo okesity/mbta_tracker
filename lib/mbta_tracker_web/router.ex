@@ -12,7 +12,7 @@ defmodule MbtaTrackerWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
-  
+
   scope "/", MbtaTrackerWeb do
     pipe_through :browser
 

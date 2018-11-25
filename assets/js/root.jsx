@@ -16,7 +16,6 @@ function initSession() {
   let token = getCookie("token=");
   let user_id = getCookie("user_id=");
   let user_name = getCookie("user_name=");
-  //let user_name = getCookie("user_name");
   let user_email = getCookie("user_email=");
 
   if(token && user_id && user_name && user_email) {
@@ -36,10 +35,32 @@ class Root extends Component {
     super(props);
     this.state = {
       users: [],
+      favoritestops: [],
       session: initSession(),
       sessionCreated: false,
-
     }
+    this.fetch_favstops();
+    console.log("check favstop list", this.state.favoritestops);
+  }
+
+  fetch_path(path, on_success) {
+    $.ajax(path, {
+      method: "get",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: "",
+      success: on_success,
+    });
+  }
+
+  fetch_favstops() {
+    this.fetch_path(
+      "/api/v1/favoritestops",
+      (resp) => {
+        let state1 = _.assign({}, this.state, { favoritestops: resp.data });
+        this.setState(state1);
+      }
+    );
   }
 
 
@@ -136,6 +157,59 @@ class Root extends Component {
      }
    });
   }
+
+  add_to_favorite(name) {
+    $.ajax("/api/v1/favoritestops", {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify({name}),
+      success: (resp) => {
+        let newfavstops = {
+          name: name,
+        }
+        let state1 = _.assign({}, this.state, {favoritestops: newfavstops});
+        this.setState(state1);
+        console.log("check state after fav stop is added", state1)
+        alert("this stop is added")
+      },
+      error: (resp) => {
+        console.log("what is fv data in root", name);
+        alert("something is wrong, please try again")
+      }
+    });
+  }
+
+  // add_to_favorite = (name) => {
+  //   $.ajax("/api/v1/favoritestops/", {
+  //     method: "post",
+  //     dataType: "json",
+  //     contentType: "application/json; charset=UTF-8",
+  //     data: JSON.stringify({name}),
+  //     success: (resp) => {
+  //       let newfavstops = {
+  //         name: name,
+  //         route: route,
+  //         directon: direction,
+  //         arrive: arrive,
+  //         depart: depart,
+  //       }
+  //       let state1 = _.assign({}, this.state, {favoritestops: newfavstops});
+  //       this.setState(state1);
+  //       console.log()
+  //       alert("this stop is added")
+  //     },
+  //     error: (resp) => {
+  //       console.log("what is fv data in root", data);
+  //       alert("something is wrong, please try again")
+  //     }
+  //   });
+  // }
+
+  tryout() {
+    alert("calling from schedule works")
+  }
+
 
 
 
