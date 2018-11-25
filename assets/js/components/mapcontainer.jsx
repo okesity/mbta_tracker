@@ -27,21 +27,21 @@ export default class MapContainer extends Component {
          let routes = json.data.map(function(d){
            return {attributes: d.attributes, id: d.id};
          })
-         routes_data = routes.map(function(r) {return {value: r.attributes.long_name, label: r.id}});
+         routes_data = routes.map(function(r) {return {value: r.id, label: r.attributes.long_name}});
          this.setState({routes: routes_data});
       })
       .catch(error => console.error('Error:', error));
   }
 
   handleChange = (selected)=>{
-    this.setState({selectedRoute: selected.label});
+    this.setState({selectedRoute: selected.value});
     console.log('changed state', this.state.selectedRoute);
   }
   render() {
     return(
       <div>
         <h3 style={{marginTop: '50px'}}>Search a station or a subway line</h3>
-        <Select id="selection" defaultValue={'Green-E'} options={this.state.routes} onChange={this.handleChange} style={{marginTop: '230px', marginBottom: '100px'}}/>
+        <Select id="selection" isSearchable={true} placeholder='Green Line E' options={this.state.routes} onChange={this.handleChange} style={{marginTop: '230px', marginBottom: '100px'}}/>
         <MapElement style={{marginTop: '100px'}} selectedRoute={this.state.selectedRoute}/>
       </div>
     )
