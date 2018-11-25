@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Timeline from '../Timeline/src/Timeline'
 import ReactDOM from 'react-dom';
 import Facebook from './facebook';
 import { Form, FormGroup, Input, Button, Label, NavItem, NavLink, Table } from 'reactstrap';
@@ -6,8 +7,15 @@ import { BrowserRouter, Routes, Router} from 'react-router-dom';
 import root from '../root';
 import * as $AB from 'jquery';
 import Select from 'react-select';
-import Login from './login';
-//import * as Ons from 'react-onsenui.js';
+import moment from 'moment';
+const events = [
+  {ts: "2017-09-17T12:22:46.587Z", text: 'Logged in'},
+  {ts: "2017-09-17T12:21:46.587Z", text: 'Clicked Home Page'},
+  {ts: "2017-09-17T12:20:46.587Z", text: 'Edited Profile'},
+  {ts: "2017-09-16T12:22:46.587Z", text: 'Registred'},
+  {ts: "2017-09-16T12:21:46.587Z", text: 'Clicked Cart'},
+  {ts: "2017-09-16T12:20:46.587Z", text: 'Clicked Checkout'},
+];
 
 class Schedule extends Component {
   constructor(props){
@@ -20,8 +28,9 @@ class Schedule extends Component {
       stops: [],
       selectedStop: null,
       predictions: [],
+      timeDiff: false,
     };
-    //this.addstop = this.addstop.bind(this);
+    this.displayTime = this.displayTime.bind(this);
     console.log("check root state in schedule", this.state.root);
     this.initRoutes();
     //this.add_stop();
@@ -101,15 +110,35 @@ class Schedule extends Component {
     this.state.root.add_to_favorite(stop);
   }
 
+  displayTime(string){
+    var time = new Date(string);
+    var m = moment(time);
+    if(this.state.timeDiff){
+      // let now=new Date();
+      // let msdiff=time.getTime()- now.getTime();  //millisecond difference
+      // let hourdiff=Math.floor(msdiff/3600000);
+      // let msminute = msdiff%3600000;
+      // let minutediff=Math.floor(msminute/60000);
+      // let seconddiff=Math.floor(msminute%60000/1000);
+      // return hourdiff+':'+minutediff+':'+seconddiff;
+      return m.fromNow()
+    }
+    else{
+      return m.format('h:mm:ss a')
+            //return 'Today'+ time.getHours()+':'+time.getMinutes()+':'+time.getSeconds();
+    }
+  }
+
   tryout(props) {
     alert("try1");
   }
 
   render(){
     let plabel = this.state.predictions.map(function(prediction){prediction.lable});
-    console.log("check what is plabel", plabel);
+    var displayTime = this.displayTime;
     var here = this.state;
       return(<div className="container">
+        <Timeline items={events} />
         <h3 style={{marginTop: '50px'}}>Search station to see the schedule</h3>
         <Select id="selection-routes" isSearchable={true}
                 options={this.state.routes} onChange={this.handleChangeRoute}
@@ -120,6 +149,7 @@ class Schedule extends Component {
                 options={this.state.stops} onChange={this.handleChangeStop}
                 placeholder='Select Stop'
                 style={{marginTop: '230px', marginBottom: '100px'}}/>
+        <button className="btn btn-primary" onClick={()=>this.setState({timeDiff: !this.state.timeDiff})}>Time Diff</button>
         <br />
         <Table>
           <thead>
@@ -137,8 +167,8 @@ class Schedule extends Component {
                 return <tr>
                   <td>{prediction.route}</td>
                   <td>{prediction.direction?'InBoard':'OutBoard'}</td>
-                  <td>{prediction.arrive}</td>
-                  <td>{prediction.depart}</td>
+                  <td>{displayTime(prediction.arrive)}</td>
+                  <td>{displayTime(prediction.depart)}</td>
                   <td><Button onClick={()=>{
                       console.log("check here stop name", here.selectedStop);
                       here.root.add_to_favorite(here.selectedStop);}}>Save</Button></td>

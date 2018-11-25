@@ -37,7 +37,8 @@ class MapElement extends Component {
 
   componentDidMount() {
     console.log("refreshing", this.state.selectedRoute);
-    setInterval(this.get_vehicles.bind(this),5000);
+    var flag = this.state.showingVehicles;
+    setInterval(()=>{if(flag){this.get_vehicles()}},7000);
   }
 
   componentWillReceiveProps(nextProps) {
