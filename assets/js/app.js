@@ -13,13 +13,6 @@ import jQuery from 'jquery';
 window.jQuery = window.$ = jQuery; // Bootstrap requires a global "$" object.
 import "bootstrap";
 import _ from "lodash";
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import Facebook from './components/facebook';
-import { Button, FormGroup, FormControl, ControlLabel } from 'reactstrap';
-import Login from './components/login';
-//import 'typeface-roboto';
-
 
 
 // class App extends Component {

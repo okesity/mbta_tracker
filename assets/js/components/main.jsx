@@ -15,6 +15,6 @@ export default function Main(props){
   if(root.state.session == null) {
     return <div><Login root={props.root}/></div>;
   } else {
-    return <div><MapContainer root={props.root}/></div>;
+    return <div><MapContainer /></div>;
   }
 }

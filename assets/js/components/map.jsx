@@ -14,6 +14,7 @@ class MapElement extends Component {
       selectedRoute: props.selectedRoute,
       showingInfoWindow: false,
       showingStops: false,
+      showingVehicles: true,
       shape: null,
       vehicles: [{lat: 0, lng: 0}],
       stops: [{lat: 0, lng: 0}],
@@ -25,9 +26,9 @@ class MapElement extends Component {
     this.get_shape = this.get_shape.bind(this);
     this.VehicleMarker = this.VehicleMarker.bind(this);
     this.get_stops = this.get_stops.bind(this);
-    
-    // if(this.props.selectedRoute!=null)
-    //   this.setState({selectedRoute: this.props.selectedRoute});
+    this.setoption = this.setoption.bind(this);
+
+
     this.get_location();
     this.get_stops();
     this.get_shape();
@@ -47,6 +48,7 @@ class MapElement extends Component {
       console.log("received",this.state.selectedRoute);
       this.get_shape(route);
       this.get_vehicles(route);
+      this.get_stops(route);
       //clearInterval(vehiclehandler);
       //vehiclehandler = setInterval(this.get_vehicles(),5000);  //refresh vehicle data every 1 second
     }
@@ -81,8 +83,8 @@ class MapElement extends Component {
   }
 
   //get Green-E stops
-  get_stops(){
-    fetch("https://api-v3.mbta.com/stops?filter[route]="+this.state.selectedRoute)
+  get_stops(route = this.state.selectedRoute){
+    fetch("https://api-v3.mbta.com/stops?filter[route]="+route)
     .then(response => response.json())
     .then(json => {
         let stops = json.data.map(d => d.attributes);
@@ -96,14 +98,16 @@ class MapElement extends Component {
   set_bounds(data){
     console.log("invoked set bounds");
     if(data.length>0){
-      let points = polyline.decode(data[0].attributes.polyline);
+      let points = [];
+      for(let i=0;i<data.length-1;i++)
+        if(data[i].attributes.priority==1)
+          points = _.union(points, polyline.decode(data[i].attributes.polyline));
       points = points.map(function(point){ return {lat: point[0], lng: point[1]}; });
       this.setState({bounds: points});
     }
   }
 
   get_vehicles(route = this.state.selectedRoute){
-    console.log("getting vehicle", route);
     if(route){
       fetch("https://api-v3.mbta.com/vehicles?filter[route]="+route)
       .then(response => response.json())
@@ -113,6 +117,21 @@ class MapElement extends Component {
           this.setState({vehicles: vehicles_data});
       })
       .catch(error => console.error('Error:', error));
+    }
+  }
+
+  setoption(option){
+    console.log(option);
+    switch(option){
+      case 'location':
+          this.get_location();
+          break;
+      case 'stops':
+          this.setState({showingStops: !this.state.showingStops});
+          break;
+      case 'vehicles':
+          this.setState({showingVehicles: !this.state.showingVehicles});
+          break;
     }
   }
 
@@ -150,12 +169,6 @@ class MapElement extends Component {
       }
 
       return vlist;
-      // this.state.vehicles.map(v => {
-      //   return <Marker position={{lat: v.lat, lng: v.lng}} />
-      //   });
-      // let v=this.state.vehicles[0];
-      // let pos = {lat: v.lat, lng: v.lng};
-      // return <Marker name="avv" onClick={this.onMarkerClick} position={pos} />
     }
     else{
       console.log("getting vs");
@@ -167,7 +180,10 @@ class MapElement extends Component {
   render() {
     if (!this.props.loaded) return <div>Loading...</div>;
       
-    return (
+    return (<div>
+      <button className="btn btn-primary" onClick={this.setoption.bind(this,'location')}>Reset Location</button>
+      <button className="btn btn-primary" onClick={this.setoption.bind(this,'vehicles')}>Display Vehicles</button> 
+      <button className="btn btn-primary" onClick={this.setoption.bind(this,'stops')}>Display Stops</button>
       <Map
         className="map"
         google={this.props.google}
@@ -179,7 +195,7 @@ class MapElement extends Component {
         <Marker name="Current location" onClick={this.onMarkerClick} position={this.state.center} />
         
         { //mark vehicles on map
-          this.state.vehicles.map(v => 
+          this.state.showingVehicles && this.state.vehicles.map(v => 
             <Marker position={{lat: v.lat, lng: v.lng}} />)
         }
 
@@ -198,6 +214,7 @@ class MapElement extends Component {
           </div>
         </InfoWindow>
       </Map>
+      </div>
     );
   }
 }
