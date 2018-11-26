@@ -15,6 +15,7 @@ class MapElement extends Component {
       showingInfoWindow: false,
       showingStops: false,
       showingVehicles: true,
+      showingContour: true,
       shape: null,
       vehicles: [{lat: 0, lng: 0}],
       stops: [{lat: 0, lng: 0}],
@@ -125,7 +126,12 @@ class MapElement extends Component {
     console.log(option);
     switch(option){
       case 'location':
-          this.get_location();
+          if(this.state.center){
+            this.get_location();
+          }
+          else{
+            alert('GPS Disabled, Please Refresh');
+          }
           break;
       case 'stops':
           this.setState({showingStops: !this.state.showingStops});
@@ -133,16 +139,44 @@ class MapElement extends Component {
       case 'vehicles':
           this.setState({showingVehicles: !this.state.showingVehicles});
           break;
+      case 'contour':
+          this.setState({showingContour: !this.state.showingContour});
+          break;
     }
   }
 
 
-  onMarkerClick = (props, marker) =>
-    this.setState({
-      activeMarker: marker,
-      selectedPlace: props,
-      showingInfoWindow: true
-    });
+  onMarkerClick = function(props, marker){
+    console.log(props);
+    console.log(marker);
+    if(marker.vehicle){ //if this marker is a vehicle
+      this.setState({
+        activeMarker: marker,
+        selectedPlace: {name: 'vehicle', lat: marker.vehicle.lat, 
+                        lng: marker.vehicle.lng, direction: marker.vehicle.direction?'InBoard':'OutBoard'},
+        showingInfoWindow: true
+      });
+    }
+    else if (marker.stop){
+      console.log("click on stop marker");
+      this.setState({
+        activeMarker: marker,
+        selectedPlace: {name: 'stop', lat: marker.stop.lat, 
+                        lng: marker.stop.lng, address: marker.stop.address},
+        showingInfoWindow: true
+      });
+    }
+    else{
+      this.setState({
+        activeMarker: marker,
+        selectedPlace: {name: 'Current Location', lat: this.state.center.lat, 
+                        lng: this.state.center.lng},
+        showingInfoWindow: true
+      });
+    }
+    
+  }.bind(this);
+  
 
   onInfoWindowClose = () =>
     this.setState({
@@ -180,38 +214,46 @@ class MapElement extends Component {
 
   render() {
     if (!this.props.loaded) return <div>Loading...</div>;
-
+    let here=this;
     return (<div>
       <button className="btn btn-primary" onClick={this.setoption.bind(this,'location')}>Reset Location</button>
       <button className="btn btn-primary" onClick={this.setoption.bind(this,'vehicles')}>Display Vehicles</button>
       <button className="btn btn-primary" onClick={this.setoption.bind(this,'stops')}>Display Stops</button>
+      <button className="btn btn-primary" onClick={this.setoption.bind(this,'contour')}>Display Contour</button>
       <Map
         className="map"
         google={this.props.google}
         onClick={this.onMapClicked}
         style={{ height: '700px', position: 'relative', width: '1100px', marginTop: '100px' }}
         zoom={14}
-        center={this.state.center}
+        center={this.state.center || {lat:42.33, lng: -71.09}}
         >
-        <Marker name="Current location" onClick={this.onMarkerClick} position={this.state.center} />
-
-        { //mark vehicles on map
-          this.state.showingVehicles && this.state.vehicles.map(v =>
-            <Marker position={{lat: v.lat, lng: v.lng}} />)
+        {
+          this.state.center && <Marker name="Current location" onClick={this.onMarkerClick} position={this.state.center} />
+        }
+        { 
+          this.state.showingVehicles && this.state.vehicles.map(v=>
+            <Marker vehicle={v} position={{lat: v.lat, lng: v.lng}}
+                     onClick={here.onMarkerClick} />)
         }
 
         {
-          this.state.showingStops && this.state.stops.map(v =>
-            <Marker position={{lat: v.lat, lng: v.lng}} />)
+          this.state.showingStops && this.state.stops.map(s =>
+            <Marker stop={s} onClick={here.onMarkerClick}
+                    position={{lat: s.lat, lng: s.lng}} />)
         }
 
-        <Polyline path={this.state.bounds} strokeColor="#008000"/>
+        {this.state.showingContour && <Polyline path={this.state.bounds} strokeColor="#008000"/>}
         <InfoWindow
           marker={this.state.activeMarker}
           onClose={this.onInfoWindowClose}
           visible={this.state.showingInfoWindow}>
           <div>
-            <h1>{this.state.selectedPlace.name}</h1>
+            <h3>{this.state.selectedPlace.name}</h3>
+            <p>{'Lat: '+this.state.selectedPlace.lat}</p>
+            <p>{'Lng: '+this.state.selectedPlace.lng}</p>
+            <p>{this.state.selectedPlace.direction}</p>
+            <p>{this.state.selectedPlace.address}</p>
           </div>
         </InfoWindow>
       </Map>
