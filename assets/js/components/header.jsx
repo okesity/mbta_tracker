@@ -44,7 +44,7 @@ export default function Header(props) {
      <Button onClick={logout}>Log out</Button>
     </div>;
     ul_info =<ul className="navbar-nav mr-auto">
-        <NavItem>
+        <NavItem classNmae="nav-item">
           <NavLink to="/" exact={true} activeClassName="active" className="nav-link" style={{color: 'rgb(0,0,0)'}}>Home</NavLink>
         </NavItem>
         <NavItem>
@@ -57,7 +57,7 @@ export default function Header(props) {
   }
 
   return(
-    <nav className="navbar navbar-light navbar-expand" id="header">
+    <nav className="navbar navbar-light navbar-expand" id="header" style={{backgroundColor: "#e3f2fd"}}>
         <span className="navbar-brand">
           MBTA Tracker
         </span>

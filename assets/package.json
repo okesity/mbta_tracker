@@ -23,12 +23,14 @@
     "react": "^16.6.3",
     "react-cookie": "^3.0.4",
     "react-dom": "^16.6.3",
+    "react-fa-icon": "^0.1.4",
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^3.2.1",
     "react-router-dom": "^4.3.1",
     "react-select": "^2.1.1",
     "reactstrap": "^6.5.0",
     "styled-components": "^4.1.1",
+    "sweetalert": "^2.1.2",
     "typeface-roboto": "0.0.54"
   },
   "devDependencies": {

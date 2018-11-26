@@ -25,9 +25,9 @@ export default function FavoriteStops(props) {
     console.log("userfav", userfav);
     return(
       <div className="container" style={{marginTop: '50px'}}>
-        <h3>Your favorite Stops</h3>
-        <Table>
-          <thead>
+        <h3 style={{marginLeft: '400px'}}>Your Favorite Stops</h3>
+        <Table hover>
+          <thead className="thead-light" style={{fontSize: '20px'}}>
             <tr>
               <th>Stop Name</th>
               <th></th>
@@ -37,7 +37,8 @@ export default function FavoriteStops(props) {
             userfav.map(function(fav){
               return <tr>
                 <td>{fav.name}</td>
-                <td><Button onClick={()=>{here.delete_favoritestop(fav.id)}}>Delete</Button></td>
+                <td><Button outline color="danger" style={{borderRadius: '20px'}}
+                  onClick={()=>{here.delete_favoritestop(fav.id)}}>Delete &#10060;</Button></td>
               </tr>
           })}
           </tbody>

@@ -123,18 +123,10 @@ class Schedule extends Component {
     var time = new Date(string);
     var m = moment(time);
     if(this.state.timeDiff){
-      // let now=new Date();
-      // let msdiff=time.getTime()- now.getTime();  //millisecond difference
-      // let hourdiff=Math.floor(msdiff/3600000);
-      // let msminute = msdiff%3600000;
-      // let minutediff=Math.floor(msminute/60000);
-      // let seconddiff=Math.floor(msminute%60000/1000);
-      // return hourdiff+':'+minutediff+':'+seconddiff;
       return m.fromNow()
     }
     else{
-      return m.format('h:mm:ss a')
-            //return 'Today'+ time.getHours()+':'+time.getMinutes()+':'+time.getSeconds();
+      return m.format('h:mm:ss a');
     }
   }
 
@@ -154,10 +146,11 @@ class Schedule extends Component {
     if(here.root.state.session == null) {
       schedule_session_view = null;
     } else {
-      schedule_session_view = <Button onClick={()=>{
+      schedule_session_view = <div><p style={{fontSize: '18px', color: '#2BBBAD'}}>Click to save this stop to your favoritestops &#10145;</p>
+        <Button outline color="info"s style={{borderRadius: '20px', marginLeft: "375px", marginTop: '-80px'}}onClick={()=>{
           console.log("check here stop name", here.selectedStop);
           console.log("check here schedule session user id", here.root.state.session.user_id)
-          here.root.add_to_favorite(here.selectedStop, here.root.state.session.user_id);}}>Save</Button>;
+          here.root.add_to_favorite(here.selectedStop, here.root.state.session.user_id);}}>Save</Button></div>;
     }
       return(<div className="container">
         <div>
@@ -166,22 +159,25 @@ class Schedule extends Component {
                 options={this.state.routes} onChange={this.handleChangeRoute}
                 placeholder='Select Route'
                 style={{marginTop: '230px', marginBottom: '100px'}}/>
+        <br />
 
         <Select id="selection-stops" isSearchable={true}
                 options={this.state.stops} onChange={this.handleChangeStop}
                 placeholder='Select Stop'
                 style={{marginTop: '230px', marginBottom: '100px'}}/>
-        <button className="btn btn-primary" onClick={()=>this.setState({timeDiff: !this.state.timeDiff})}>Time Diff</button>
+        <br />
         {schedule_session_view}
         <br />
-        <Table>
-          <thead>
+        <br />
+        <h5 style={{marginLeft: '450px'}}>Schedule Info Table</h5>
+        <Table hover>
+          <thead className="thead-light" style={{fontSize: '18px'}}>
             <tr>
               <th>Route</th>
               <th>Direction</th>
               <th>Arrival Time</th>
               <th>Departure Time</th>
-              <th></th>
+              <th><button className="btn btn-success btn-sm" style={{borderRadius: '15px'}}onClick={()=>this.setState({timeDiff: !this.state.timeDiff})}>Time Diff</button></th>
             </tr>
           </thead>
           <tbody>
@@ -192,45 +188,22 @@ class Schedule extends Component {
                   <td>{prediction.direction?'InBoard':'OutBoard'}</td>
                   <td>{displayTime(prediction.arrive)}</td>
                   <td>{displayTime(prediction.depart)}</td>
+                  <td></td>
                 </tr>
               })}
               <tr>{this.state.predictions.length==0?'No data':''}</tr>
           </tbody>
         </Table>
-        <Button onClick={() => this.props.root.tryout()}>test button</Button>
-      </div>
-      <div>
-        <Timeline items={events} />
       </div>
     </div>)
     // }
   }
 }
 export default Schedule;
+// <div>
+//   <Timeline items={events} />
+// </div>
 
-// <td><Button onClick={()=>{
-//     console.log("check here stop name", here.selectedStop);
-//     here.root.add_to_favorite(here.selectedStop);}}>Save</Button></td>
-
-  // <td><Button onClick={this.props.root.add_to_favorite()}>Save</Button></td>
-
-//add_to_favorite = () => (async () => {this.state.root.add_to_favorite(plabel)})()
-
-// <td><Button onClick={() => this.props.root.add_to_favorite(this.handleChangeStop, prediction.route,
-//     prediction.direction, prediction.arrive, prediction.depart)} onChange=props.add()>Save</Button></td>
-// return <tr>
-//   <td>{prediction.route}</t
-//   <td>{prediction.direction?'InBoard':'OutBoard'}</td>
-//   <td>{prediction.arrive}</td>
-//   <td>{prediction.depart}</td>
-//   <td><Button onClick={this.addstop}>Save</Button></td>
-// </tr>
-
-
-// <tr>
-//    <td>{this.state.predictions.map(function(prediction){prediction.rout})}</td>
-//    <td>{this.state.predictions.map(function(prediction){prediction.direction?'InBoard':'OutBoard'})}</td>
-//    <td>{this.state.predictions.map(function(prediction){prediction.arrive})}</td>
 //    <td>{this.state.predictions.map(function(prediction){prediction.depart})}</td>
 //    <td><Button onClick={(props) => this.state.root.add_to_favorite(plabel)}>Save</Button></td>
 //    </tr>

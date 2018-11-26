@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper, Polyline} from 'google-maps-react';
+import { Jumbotron, Container, Button } from 'reactstrap';
 
 var polyline = require('@mapbox/polyline');
 var vehiclehandler;
-
 class MapElement extends Component {
   constructor(props){
     super(props);
@@ -212,18 +212,23 @@ class MapElement extends Component {
   }
 
   render() {
+    // const { FaIcon, FaStack } = require('react-fa-icon');
     if (!this.props.loaded) return <div>Loading...</div>;
     let here=this;
     return (<div>
-      <button className="btn btn-primary" onClick={this.setoption.bind(this,'location')}>Reset Location</button>
-      <button className="btn btn-primary" onClick={this.setoption.bind(this,'vehicles')}>Display Vehicles</button>
-      <button className="btn btn-primary" onClick={this.setoption.bind(this,'stops')}>Display Stops</button>
-      <button className="btn btn-primary" onClick={this.setoption.bind(this,'contour')}>Display Contour</button>
+      <Jumbotron fluid style={{width: '1120px', height: '1000px'}}>
+      <Container>
+      <h5 style={{color: "black", paddingLeft: '380px'}}>Now You can interact with the Map</h5>
+      <hr style={{color: 'black'}}/>
+        <Button id="map-btn" style={{marginRight: '100px', marginLeft: '100px'}} outline color="info" onClick={this.setoption.bind(this,'location')}>Reset Location</Button>
+        <Button id="map-btn" style={{marginRight: '100px'}}outline color="success" onClick={this.setoption.bind(this,'vehicles')}>Display Vehicles</Button>
+        <Button id="map-btn" style={{marginLeft: '10px'}}outline color="danger"  onClick={this.setoption.bind(this,'stops')}>Display Stops</Button>
+        <Button id="map-btn" style={{marginLeft: '100px'}}outline color="primary" onClick={this.setoption.bind(this,'contour')}>Display Contour</Button>
       <Map
         className="map"
         google={this.props.google}
         onClick={this.onMapClicked}
-        style={{ height: '700px', position: 'relative', width: '1100px', marginTop: '100px' }}
+        style={{ height: '780px', position: 'relative', width: '1090px', marginTop: '40px' }}
         zoom={14}
         center={this.state.center || {lat:42.33, lng: -71.09}}
         >
@@ -256,10 +261,15 @@ class MapElement extends Component {
           </div>
         </InfoWindow>
       </Map>
+    </Container>
+      </Jumbotron>
       </div>
     );
   }
 }
+
+
+
 
 export default GoogleApiWrapper({
 apiKey: ("AIzaSyBhLvg_Vwoau_QHkCZVz8XtVvzMW8NX86w")

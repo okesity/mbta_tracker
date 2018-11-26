@@ -39,12 +39,13 @@ export default class MapContainer extends Component {
   }
   render() {
     return(
-      <div>
+      <div className="container">
         <h3 style={{marginTop: '50px'}}>Search a station or a subway line</h3>
-        <Select id="selection" isSearchable={true} placeholder='Green Line E' options={this.state.routes} onChange={this.handleChange} style={{marginTop: '230px', marginBottom: '100px'}}/>
-        <MapElement style={{marginTop: '100px'}} selectedRoute={this.state.selectedRoute}/>
+        <Select isSearchable={true} placeholder='Green Line E' options={this.state.routes} onChange={this.handleChange}
+          style={{marginTop: '230px', marginLeft: '100px', width: '100%'}}/>
+        <br />
+        <MapElement style={{paddingTop: '500px'}} selectedRoute={this.state.selectedRoute}/>
       </div>
     )
   }
 }
-

@@ -37,9 +37,9 @@ export default function Login(props) {
                    <Button type="button" id= "sign-in-btn" onClick={createSession} className="btn-block z-depth-1a"> Sign In</Button>
                  </div>
                  <p className="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> or Sign in with:</p>
-                 <Facebook />
+                 <Facebook root={props.root}/>
                  <br />
-                 <Google />
+                 <Google root={props.root}/>
                </CardBody>
                <ModalFooter className="mx-5 pt-3 mb-1">
                  <p className="font-small grey-text d-flex justify-content-end">Not a member? <Link to="/registration" style={{marginLeft: '20px'}}>Register</Link></p>

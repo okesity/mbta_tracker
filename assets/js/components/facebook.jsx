@@ -22,9 +22,10 @@ export default function Facebook(props) {
     // craete a new session here so that the session in main won't be null.
     // write one more create function specifically for soical oauth login in session controller.
     // if it's necessary, write another createsession function in root.jsx
-    //props.root.createSession(responseFacebook.name, responseFacebook.email);
+    // props.root.createOauthUser(responseFacebook.name, responseFacebook.email);
     props.root.createOauthSession(responseFacebook.name, responseFacebook.email);
     console.log("check fb data", responseFacebook.email);
+    console.log("check root in fb", props.root);
     console.log("FB ROOT session", props.root.state.session);
   };
 

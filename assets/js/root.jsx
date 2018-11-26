@@ -11,6 +11,7 @@ import Schedule from './components/schedule';
 import FavoriteStops from './components/favorite_stops';
 import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
+import swal from 'sweetalert';
 
 function initSession() {
   let token = getCookie("token=");
@@ -82,7 +83,7 @@ class Root extends Component {
        console.log("state1", state1)
      },
      error: (resp) => {
-       alert("login failed, please try again")
+       alert("login failed, please try again", "error")
      }
    });
   }
@@ -94,14 +95,21 @@ class Root extends Component {
      contentType: "application/json; charset=UTF-8",
      data: JSON.stringify({name, email}),
      success: (resp) => {
-       let state1 = _.assign({}, this.state, { session: resp.data, sessionCreated: true,});
+       let state1 = _.assign({}, this.state, { session: resp.data, sessionCreated: true});
        //document.cookie = "user_id" + this.state.session.state.user_id
+       document.cookie = "token=" + state1.session.token;
+       document.cookie = "user_id=" + state1.session.user_id;
+       document.cookie = "user_email=" + state1.session.user_email;
+       document.cookie = "user_name=" + state1.session.user_name;
        this.setState(state1);
      },
      error: (resp) => {
-       alert("login failed, please try again")
+       //console.log("resp data", resp.data);
+       swal("login failed, please try again", "error")
      }
    });
+
+   console.log(this.state.session);
   }
 
   deleteSession() {
@@ -120,7 +128,7 @@ class Root extends Component {
        this.setState(state1);
      },
      error: (resp) => {
-       alert("login failed, please try again")
+       swal("login failed, please try again", "error")
      }
    });
   }
@@ -133,28 +141,35 @@ class Root extends Component {
      data: JSON.stringify({name, email, password}),
      success: (resp) => {
        console.log("check resp data", resp.data)
-       alert("Your Registration is Successful!")
+       swal({
+         title: "Your Registration is Successful!",
+         text: "success",
+         icon: "success"})
        history.push('/favorite_stops');
      },
      error: (resp) => {
-       alert("login failed, please try again")
+       swal("login failed, please try again", "error")
      }
    });
   }
 
 
-  createOauthUser(name, email, password) {
+  createOauthUser(name, email) {
     $.ajax("/api/v1/newuser", {
      method: "post",
      dataType: "json",
      contentType: "application/json; charset=UTF-8",
-     data: JSON.stringify({name, email, password}),
+     data: JSON.stringify({name, email}),
      success: (resp) => {
        console.log("check resp data", resp.data)
-       alert("Your Facebook Login is Successful!")
+       swal({
+         title: "Your Facebook Login is Successful!",
+         text: "success",
+         icon: "success",
+       })
      },
      error: (resp) => {
-       alert("login failed, please try again")
+       swal("login failed, please try again", "error")
      }
    });
   }
@@ -175,11 +190,15 @@ class Root extends Component {
         let state2 = this.state.favoritestops.concat(newfavstops);
         this.setState(state2);
         console.log("check state2 after fav stop is added", state2)
-        alert("this stop is added")
+        swal({
+          title: "this stop is added",
+          text: "success",
+          icon: "success",
+        })
       },
       error: (resp) => {
         console.log("what is fv data in root", name);
-        alert("something is wrong, please try again")
+        swal("something is wrong, please try again", "error")
       }
     });
   }
@@ -196,15 +215,15 @@ class Root extends Component {
        console.log();
        let state1 = _.assign({}, this.state, { favoritestops: stop1, sessionCreated: true,});
        this.setState(state1);
+       swal({
+         title:"This stop is deleted",
+         text: "success",
+         icon: "success"});
      },
      error: (resp) => {
-       alert("login failed, please try again")
+       swal("login failed, please try again", "error")
      }
    });
-  }
-
-  tryout() {
-    alert("calling from schedule works")
   }
 
 

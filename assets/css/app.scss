@@ -157,10 +157,10 @@
   border-radius: 25px;
 }
 
-#header {
-  background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5 51%, #00d2ff 100%);
-  //color: white;
-}
+// #header {
+//   background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5 51%, #00d2ff 100%);
+//   //color: white;
+// }
 
 .nav-link {
   // font-color
@@ -168,6 +168,30 @@
   color: white;
   // text-decoration: underline;
 }
+.ul.nav-link {
+  color: white;
+}
+.navbar.navbar-light.navbar-expand.navbar-nav.mr-auto.nav-item.nav-link{
+  color: white
+}
+
+
+
+.navitem.navbar-brand {
+  color: white;
+}
+
+#map-btn {
+  border-radius: 25px;
+}
+
+html {
+  font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+}
+
+// .ul, .nav-link {
+//   color: white;
+// }
 
 // .navbar {
 //   background-color: transparent;

@@ -25,7 +25,7 @@ defmodule MbtaTrackerWeb.Router do
     post "/sessions", SessionController, :create
     delete "/sessions", SessionController, :delete
     post "/newuser", UserController, :create
-    post "/oauthsessions", SessionController, :create1
+    post "/oauthsessions", SessionController, :create2
     resources "/favoritestops", FavoritestopController, except: [:new, :edit]
     resources "/users", UserController, except: [:new, :edit]
   end
