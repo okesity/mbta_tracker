@@ -12,6 +12,7 @@ defmodule MbtaTrackerWeb.FavoritestopView do
 
   def render("favoritestop.json", %{favoritestop: favoritestop}) do
     %{id: favoritestop.id,
-      name: favoritestop.name}
+      name: favoritestop.name,
+      user_id: favoritestop.user_id}
   end
 end
