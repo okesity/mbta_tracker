@@ -158,7 +158,6 @@ class MapElement extends Component {
       });
     }
     else if (marker.stop){
-      console.log("click on stop marker");
       this.setState({
         activeMarker: marker,
         selectedPlace: {name: 'stop', lat: marker.stop.lat, 
