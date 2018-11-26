@@ -156,3 +156,27 @@
 #sign-up-btn {
   border-radius: 25px;
 }
+
+#header {
+  background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5 51%, #00d2ff 100%);
+  //color: white;
+}
+
+.nav-link {
+  // font-color
+  font-family: sans-serif;
+  color: white;
+  // text-decoration: underline;
+}
+
+// .navbar {
+//   background-color: transparent;
+// }
+// .top-nav-collapse {
+//   background-color: #4285F4;
+// }
+// @media only screen and (max-width: 768px) {
+//   .navbar {
+//       background-color: #4285F4;
+//   }
+// }

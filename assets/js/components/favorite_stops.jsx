@@ -14,20 +14,6 @@ import _ from 'lodash';
 export default function FavoriteStops(props) {
   let {schedule, root, sessionCreated, session, favoritestops} = props;
   console.log("check fav in fav", props.root.state.favoritestops);
-
-  // let listofstops = props.root.state.favoritestops;
-  //
-  //
-  // console.log("userfav", userfav);
-
-  //let first = props.root.state.favoritestops[0].name;
-
-  // let first = props.root.state.favoritestops
-  //console.log(""favorite);
-  //console.log("check favoritestop favorites", favoritestop);
-  //let stops = _.map( favoritestops(favorite_stop) => <Favoritestop key={favorite_stop.id} root={root} /> );
-//  let stops = _.map(favoritestops, (favoritestop) => <Favoritestop key={favoritestop.id} favoritestop={favoritestop} root={root} />);
-
   if(root.state.session == null) {
     return <div><Login root={props.root}/></div>;
   } else {

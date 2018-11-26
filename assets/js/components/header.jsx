@@ -4,6 +4,7 @@ import { Form, FormGroup, NavItem, Input, Button } from 'reactstrap';
 import FavoriteStops from './favorite_stops';
 import Registration from './registration';
 import Schedule from './schedule';
+//import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, Container, Mask, View } from 'mdbreact';
 
 
 export default function Header(props) {
@@ -44,7 +45,7 @@ export default function Header(props) {
     </div>;
     ul_info =<ul className="navbar-nav mr-auto">
         <NavItem>
-          <NavLink to="/" exact={true} activeClassName="active" className="nav-link">Home</NavLink>
+          <NavLink to="/" exact={true} activeClassName="active" className="nav-link" style={{color: 'rgb(0,0,0)'}}>Home</NavLink>
         </NavItem>
         <NavItem>
           <NavLink to="/schedule" exact={true} activeClassName="active" className="nav-link">Schedule</NavLink>
@@ -56,12 +57,24 @@ export default function Header(props) {
   }
 
   return(
-    <nav className="navbar navbar-light navbar-expand" style={{backgroundColor: "#e3f2fd"}}>
+    <nav className="navbar navbar-light navbar-expand" id="header">
         <span className="navbar-brand">
           MBTA Tracker
         </span>
         { ul_info }
         { session_info }
     </nav>
+
   );
 }
+
+// style={{backgroundColor: "#e3f2fd"}
+// <Navbar id="header" expand="md" fixed="top" scrolling>
+//   <NavbarBrand href="/">
+//         <strong>MBTA Tracker</strong>
+//   </NavbarBrand>
+//     <NavItem active>
+//       { ul_info }
+//       { session_info }
+//     </NavItem>
+// </Navbar>

@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper, Polyline} from 'google-maps-react';
 
@@ -152,15 +151,16 @@ class MapElement extends Component {
     if(marker.vehicle){ //if this marker is a vehicle
       this.setState({
         activeMarker: marker,
-        selectedPlace: {name: 'vehicle', lat: marker.vehicle.lat, 
+        selectedPlace: {name: 'vehicle', lat: marker.vehicle.lat,
                         lng: marker.vehicle.lng, direction: marker.vehicle.direction?'InBoard':'OutBoard'},
         showingInfoWindow: true
       });
     }
     else if (marker.stop){
+      console.log("click on stop marker");
       this.setState({
         activeMarker: marker,
-        selectedPlace: {name: 'stop', lat: marker.stop.lat, 
+        selectedPlace: {name: 'stop', lat: marker.stop.lat,
                         lng: marker.stop.lng, address: marker.stop.address},
         showingInfoWindow: true
       });
@@ -168,14 +168,14 @@ class MapElement extends Component {
     else{
       this.setState({
         activeMarker: marker,
-        selectedPlace: {name: 'Current Location', lat: this.state.center.lat, 
+        selectedPlace: {name: 'Current Location', lat: this.state.center.lat,
                         lng: this.state.center.lng},
         showingInfoWindow: true
       });
     }
-    
+
   }.bind(this);
-  
+
 
   onInfoWindowClose = () =>
     this.setState({
@@ -230,7 +230,7 @@ class MapElement extends Component {
         {
           this.state.center && <Marker name="Current location" onClick={this.onMarkerClick} position={this.state.center} />
         }
-        { 
+        {
           this.state.showingVehicles && this.state.vehicles.map(v=>
             <Marker vehicle={v} position={{lat: v.lat, lng: v.lng}}
                      onClick={here.onMarkerClick} />)
