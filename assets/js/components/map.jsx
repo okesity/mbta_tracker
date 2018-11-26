@@ -218,7 +218,7 @@ class MapElement extends Component {
     return (<div>
       <Jumbotron fluid style={{width: '1120px', height: '1000px'}}>
       <Container>
-      <h5 style={{color: "black", paddingLeft: '380px'}}>Now You can interact with the Map</h5>
+      <h5 style={{color: "black", paddingLeft: '380px', font: 'Helvatica'}}>Now You can interact with the Map</h5>
       <hr style={{color: 'black'}}/>
         <Button id="map-btn" style={{marginRight: '100px', marginLeft: '100px'}} outline color="info" onClick={this.setoption.bind(this,'location')}>Reset Location</Button>
         <Button id="map-btn" style={{marginRight: '100px'}}outline color="success" onClick={this.setoption.bind(this,'vehicles')}>Display Vehicles</Button>

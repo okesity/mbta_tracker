@@ -41,6 +41,7 @@ class Root extends Component {
       sessionCreated: false,
     }
     this.fetch_favstops();
+    this.fetch_users();
     //console.log("check favstop list", this.state.favoritestops);
   }
 
@@ -64,6 +65,18 @@ class Root extends Component {
       }
     );
   }
+
+  fetch_users() {
+    this.fetch_path(
+      "/api/v1/users",
+      (resp) => {
+        console.log("fetch users", resp.data);
+        let state1 = _.assign({}, this.state, { users: resp.data });
+        this.setState(state1);
+      }
+    );
+    console.log("users", this.state.users);
+ }
 
 
   createSession(email, password) {
@@ -154,12 +167,12 @@ class Root extends Component {
   }
 
 
-  createOauthUser(name, email) {
+  createOauthUser(name, email, password) {
     $.ajax("/api/v1/newuser", {
      method: "post",
      dataType: "json",
      contentType: "application/json; charset=UTF-8",
-     data: JSON.stringify({name, email}),
+     data: JSON.stringify({name, email, password}),
      success: (resp) => {
        console.log("check resp data", resp.data)
        swal({
