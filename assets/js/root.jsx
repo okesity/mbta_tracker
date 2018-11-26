@@ -39,6 +39,8 @@ class Root extends Component {
       favoritestops: [],
       session: initSession(),
       sessionCreated: false,
+      selectedRoute: {value: null},
+      selectedStop: {value: null},
     }
     this.fetch_favstops();
     this.fetch_users();
@@ -238,6 +240,17 @@ class Root extends Component {
      }
    });
   }
+
+  add_selectedRoute(selected){
+    console.log("in root set route", selected);
+    this.setState({selectedRoute: selected});
+  }
+  add_selectedStop(selected){
+    console.log("in root set stop", selected);
+    this.setState({selectedStop: selected});
+  }
+
+
 
 
 

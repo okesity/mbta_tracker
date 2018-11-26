@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Timeline from '../Timeline/src/Timeline'
 import ReactDOM from 'react-dom';
 import Facebook from './facebook';
 import { Form, FormGroup, Input, Button, Label, NavItem, NavLink, Table } from 'reactstrap';
@@ -9,21 +8,6 @@ import * as $AB from 'jquery';
 import Select from 'react-select';
 import moment from 'moment';
 
-const events = [
-  {ts: "2017-09-17T12:22:46.587Z", text: 'Logged in'},
-  {ts: "2017-09-17T12:21:46.587Z", text: 'Clicked Home Page'},
-  {ts: "2017-09-17T12:20:46.587Z", text: 'Edited Profile'},
-  {ts: "2017-09-16T12:22:46.587Z", text: 'Registred'},
-  {ts: "2017-09-16T12:21:46.587Z", text: 'Clicked Cart'},
-  {ts: "2017-09-16T12:20:46.587Z", text: 'Clicked Checkout'},
-];
-
-// const events = Schedule.state.predictions.map(function(prediction){
-//   [{ts: prediction.arrive, text: prediction.route}]
-// })
-
-console.log("check ev", events);
-
 class Schedule extends Component {
   constructor(props){
     //let {root} = props;
@@ -31,15 +15,19 @@ class Schedule extends Component {
     this.state = {
       root: props.root,
       routes:[],
-      selectedRoute: null,
+      selectedRoute: props.root.state.selectedRoute.value,
       stops: [],
-      selectedStop: null,
+      selectedStop: props.root.state.selectedStop.value,
       predictions: [],
       timeDiff: false,
     };
     this.displayTime = this.displayTime.bind(this);
-    console.log("check root state in schedule", this.state.root);
+    console.log("check state in schedule", this.state);
     this.initRoutes();
+    if(props.root.state.selectedStop){
+      console.log("get stop from root", props.root.state.selectedStop);
+      this.getPrediction(props.root.state.selectedStop);
+    }
     //this.add_stop();
   }
 
@@ -75,18 +63,22 @@ class Schedule extends Component {
   handleChangeRoute = (selected)=>{
     this.setState({selectedRoute: selected.value});
     this.getStops(selected.value);
+    this.state.root.add_selectedRoute(selected);
     console.log('changed route', selected);
   }
 
   handleChangeStop = (selected)=>{
     this.setState({selectedStop: selected.value});
     this.getPrediction(selected);
+    this.state.root.add_selectedStop(selected);
     console.log('changed stop', selected);
   }
 
   getPrediction(stop){
     var stopID=stop.value;
-    var routeName=this.state.selectedRoute;
+    var routeName='';
+    if(this.state.selectedRoute)      //check if preset value exsist
+      routeName=this.state.selectedRoute;
     var prediction_data = [];
     console.log("getting prediction data", stop, this.state.selectedRoute);
     fetch("https://api-v3.mbta.com/predictions?filter[stop]="+stopID)
@@ -96,8 +88,8 @@ class Schedule extends Component {
        let predictions = json.data.map(function(d){
            return {attributes: d.attributes, relationships: d.relationships};
        })
-       let route_data=predictions.filter(function(p){
-         return p.relationships.route.data.id==routeName;
+       let route_data = predictions.filter(function(p){
+        return p.relationships.route.data.id==routeName;
        });
        prediction_data = route_data.map(function(p) {
           return {arrive: p.attributes.arrival_time,
@@ -135,13 +127,12 @@ class Schedule extends Component {
   }
 
   render(){
-    let events1 = this.state.predictions.map(function(prediction){
-      [{ts: prediction.arrive, text: prediction.route}]
-    })
-    let plabel = this.state.predictions.map(function(prediction){prediction.arrive});
     var displayTime = this.displayTime;
     var here = this.state;
     let schedule_session_view;
+    // const selectedRoute = this.state.selectedRoute;
+    // const selectedStop = this.state.selectedStop;
+    console.log(this.state.selectedRoute);
     console.log("check session in schedule", here.root.state.session);
     if(here.root.state.session == null) {
       schedule_session_view = null;
@@ -156,14 +147,16 @@ class Schedule extends Component {
         <div>
         <h3 style={{marginTop: '50px'}}>Search station to see the schedule</h3>
         <Select id="selection-routes" isSearchable={true}
+                //value={this.state.selectedRoute}
                 options={this.state.routes} onChange={this.handleChangeRoute}
-                placeholder='Select Route'
+                placeholder={this.state.selectedRoute || 'Select Route'}
                 style={{marginTop: '230px', marginBottom: '100px'}}/>
         <br />
 
         <Select id="selection-stops" isSearchable={true}
+                //value={this.state.selectedStop}
                 options={this.state.stops} onChange={this.handleChangeStop}
-                placeholder='Select Stop'
+                placeholder={this.state.selectedStop || 'Select Stop'}
                 style={{marginTop: '230px', marginBottom: '100px'}}/>
         <br />
         {schedule_session_view}
