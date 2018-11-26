@@ -19,7 +19,7 @@ defmodule MbtaTracker.Favoritestops do
   """
   def list_favoritestops do
     Repo.all(Favoritestop)
-    # |> Repo.preload(:user)
+    |> Repo.preload(:user)
   end
 
   @doc """
@@ -38,7 +38,7 @@ defmodule MbtaTracker.Favoritestops do
   """
   def get_favoritestop!(id) do
     Repo.get!(Favoritestop, id)
-    # |> Repo.preload(:user)
+    |> Repo.preload(:user)
   end
 
   @doc """
@@ -53,19 +53,19 @@ defmodule MbtaTracker.Favoritestops do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_favoritestop(attrs \\ %{}) do
-    %Favoritestop{}
-    |> Favoritestop.changeset(attrs)
-    |> Repo.insert()
-  end
-
   # def create_favoritestop(attrs \\ %{}) do
-  #   {:ok, favoritestop} = %Favoritestop{}
+  #   %Favoritestop{}
   #   |> Favoritestop.changeset(attrs)
   #   |> Repo.insert()
-  #   favoritestop = Repo.preload(favoritestop, :user)
-  #   {:ok, favoritestop}
   # end
+
+  def create_favoritestop(attrs \\ %{}) do
+    {:ok, favoritestop} = %Favoritestop{}
+    |> Favoritestop.changeset(attrs)
+    |> Repo.insert()
+    favoritestop = Repo.preload(favoritestop, :user)
+    {:ok, favoritestop}
+  end
 
   @doc """
   Updates a favoritestop.

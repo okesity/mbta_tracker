@@ -8,6 +8,7 @@ import root from '../root';
 import * as $AB from 'jquery';
 import Select from 'react-select';
 import moment from 'moment';
+
 const events = [
   {ts: "2017-09-17T12:22:46.587Z", text: 'Logged in'},
   {ts: "2017-09-17T12:21:46.587Z", text: 'Clicked Home Page'},
@@ -16,6 +17,12 @@ const events = [
   {ts: "2017-09-16T12:21:46.587Z", text: 'Clicked Cart'},
   {ts: "2017-09-16T12:20:46.587Z", text: 'Clicked Checkout'},
 ];
+
+// const events = Schedule.state.predictions.map(function(prediction){
+//   [{ts: prediction.arrive, text: prediction.route}]
+// })
+
+console.log("check ev", events);
 
 class Schedule extends Component {
   constructor(props){
@@ -111,6 +118,8 @@ class Schedule extends Component {
   }
 
   displayTime(string){
+    if(!string)
+    return 'null';
     var time = new Date(string);
     var m = moment(time);
     if(this.state.timeDiff){
@@ -134,11 +143,24 @@ class Schedule extends Component {
   }
 
   render(){
-    let plabel = this.state.predictions.map(function(prediction){prediction.lable});
+    let events1 = this.state.predictions.map(function(prediction){
+      [{ts: prediction.arrive, text: prediction.route}]
+    })
+    let plabel = this.state.predictions.map(function(prediction){prediction.arrive});
     var displayTime = this.displayTime;
     var here = this.state;
+    let schedule_session_view;
+    console.log("check session in schedule", here.root.state.session);
+    if(here.root.state.session == null) {
+      schedule_session_view = null;
+    } else {
+      schedule_session_view = <Button onClick={()=>{
+          console.log("check here stop name", here.selectedStop);
+          console.log("check here schedule session user id", here.root.state.session.user_id)
+          here.root.add_to_favorite(here.selectedStop, here.root.state.session.user_id);}}>Save</Button>;
+    }
       return(<div className="container">
-        <Timeline items={events} />
+        <div>
         <h3 style={{marginTop: '50px'}}>Search station to see the schedule</h3>
         <Select id="selection-routes" isSearchable={true}
                 options={this.state.routes} onChange={this.handleChangeRoute}
@@ -150,6 +172,7 @@ class Schedule extends Component {
                 placeholder='Select Stop'
                 style={{marginTop: '230px', marginBottom: '100px'}}/>
         <button className="btn btn-primary" onClick={()=>this.setState({timeDiff: !this.state.timeDiff})}>Time Diff</button>
+        {schedule_session_view}
         <br />
         <Table>
           <thead>
@@ -169,20 +192,25 @@ class Schedule extends Component {
                   <td>{prediction.direction?'InBoard':'OutBoard'}</td>
                   <td>{displayTime(prediction.arrive)}</td>
                   <td>{displayTime(prediction.depart)}</td>
-                  <td><Button onClick={()=>{
-                      console.log("check here stop name", here.selectedStop);
-                      here.root.add_to_favorite(here.selectedStop);}}>Save</Button></td>
                 </tr>
               })}
               <tr>{this.state.predictions.length==0?'No data':''}</tr>
           </tbody>
         </Table>
         <Button onClick={() => this.props.root.tryout()}>test button</Button>
-      </div>)
+      </div>
+      <div>
+        <Timeline items={events} />
+      </div>
+    </div>)
     // }
   }
 }
 export default Schedule;
+
+// <td><Button onClick={()=>{
+//     console.log("check here stop name", here.selectedStop);
+//     here.root.add_to_favorite(here.selectedStop);}}>Save</Button></td>
 
   // <td><Button onClick={this.props.root.add_to_favorite()}>Save</Button></td>
 
@@ -191,7 +219,7 @@ export default Schedule;
 // <td><Button onClick={() => this.props.root.add_to_favorite(this.handleChangeStop, prediction.route,
 //     prediction.direction, prediction.arrive, prediction.depart)} onChange=props.add()>Save</Button></td>
 // return <tr>
-//   <td>{prediction.route}</td>
+//   <td>{prediction.route}</t
 //   <td>{prediction.direction?'InBoard':'OutBoard'}</td>
 //   <td>{prediction.arrive}</td>
 //   <td>{prediction.depart}</td>
@@ -206,3 +234,5 @@ export default Schedule;
 //    <td>{this.state.predictions.map(function(prediction){prediction.depart})}</td>
 //    <td><Button onClick={(props) => this.state.root.add_to_favorite(plabel)}>Save</Button></td>
 //    </tr>
+
+//<Timeline items={events} />

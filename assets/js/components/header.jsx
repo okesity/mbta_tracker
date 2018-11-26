@@ -17,13 +17,9 @@ export default function Header(props) {
     console.log("logout clicked");
     console.log("check session after delete", root.state.session);
   }
-<<<<<<< HEAD
+
 
   if(root.state.session == null) {
-=======
-  
-  if(root.state.session == null || root.state.sessionCreated == false) {
->>>>>>> 71cc6d898446b5a3015f15f87c07d8854a4ac804
     console.log("check root in header", root);
     session_info =  null;
     ul_info = (<ul className="navbar-nav mr-auto">
@@ -31,10 +27,10 @@ export default function Header(props) {
           <NavLink to="/" exact={true} activeClassName="active" className="nav-link">Home</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="#" exact={true} activeClassName="active" className="nav-link">Schedule</NavLink>
+          <NavLink to="/schedule" exact={true} activeClassName="active" className="nav-link">Schedule</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="#" href="#" className="nav-link">Favorite Stops</NavLink>
+          <NavLink to="favorite_stops" href="#" className="nav-link">Favorite Stops</NavLink>
         </NavItem>
       </ul>);
 
@@ -62,7 +58,7 @@ export default function Header(props) {
   return(
     <nav className="navbar navbar-light navbar-expand" style={{backgroundColor: "#e3f2fd"}}>
         <span className="navbar-brand">
-          Task Tracker
+          MBTA Tracker
         </span>
         { ul_info }
         { session_info }

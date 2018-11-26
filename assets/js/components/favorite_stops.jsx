@@ -15,7 +15,12 @@ export default function FavoriteStops(props) {
   let {schedule, root, sessionCreated, session, favoritestops} = props;
   console.log("check fav in fav", props.root.state.favoritestops);
 
-  let first = props.root.state.favoritestops[0].name;
+  // let listofstops = props.root.state.favoritestops;
+  //
+  //
+  // console.log("userfav", userfav);
+
+  //let first = props.root.state.favoritestops[0].name;
 
   // let first = props.root.state.favoritestops
   //console.log(""favorite);
@@ -26,6 +31,12 @@ export default function FavoriteStops(props) {
   if(root.state.session == null) {
     return <div><Login root={props.root}/></div>;
   } else {
+    var here = props.root;
+    let listofstops = props.root.state.favoritestops;
+    const userfav = listofstops.filter((stop) => {
+      return stop.user_id == props.root.state.session.user_id
+    })
+    console.log("userfav", userfav);
     return(
       <div className="container" style={{marginTop: '50px'}}>
         <h3>Your favorite Stops</h3>
@@ -36,44 +47,17 @@ export default function FavoriteStops(props) {
               <th></th>
             </tr>
           </thead>
-          <tbody>
-            {first}
+          <tbody>{
+            userfav.map(function(fav){
+              return <tr>
+                <td>{fav.name}</td>
+                <td><Button onClick={()=>{here.delete_favoritestop(fav.id)}}>Delete</Button></td>
+              </tr>
+          })}
           </tbody>
         </Table>
       </div>
     )
 
   }
-}
-
-// return <div className="fluid-container">
-//     <h3 style={{marginTop: '50px'}}>Your Favorite stops</h3>
-//     {stops}
-//   </div>
-
-function Favoritestop(props) {
-  let {favoritestop} = props;
-      return
-        <div className="container">
-            <Table>
-              <thead>
-                <tr>
-                  <th>Stop Name</th>
-                  <th>Route</th>
-                  <th>Direction</th>
-                  <th>Arrival</th>
-                  <th>Departure</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>favoritestop.stopname</td>
-                  <td>favoritestop.route</td>
-                  <td>favoritestop.direction</td>
-                  <td>favoritestop.arrive</td>
-                  <td>favoritestop.depart</td>
-                </tr>
-              </tbody>
-            </Table>
-        </div>
 }

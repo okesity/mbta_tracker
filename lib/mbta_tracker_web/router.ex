@@ -17,6 +17,7 @@ defmodule MbtaTrackerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/favoritestops/:id", PageController, :index
   end
 
   scope "/api/v1", MbtaTrackerWeb do

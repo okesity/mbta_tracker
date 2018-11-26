@@ -13,9 +13,11 @@ export default function Main(props){
   console.log("what is sessioncreated in main", root.state.sessionCreated);
   console.log("what is session in main", root.state.session);
 
-  if(root.state.session == null) {
-    return <div><Login root={props.root}/></div>;
-  } else {
-    return <div><MapContainer /></div>;
-  }
+  // if(root.state.session == null) {
+  //   return <div><Login root={props.root}/></div>;
+  // } else {
+  //   return <div><MapContainer /></div>;
+  // }
+
+  return <div><MapContainer /></div>;
 }
