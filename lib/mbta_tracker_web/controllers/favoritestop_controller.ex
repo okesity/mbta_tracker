@@ -20,8 +20,8 @@ defmodule MbtaTrackerWeb.FavoritestopController do
   #   end
   # end
 
-  def create(conn, %{"name" => name}) do
-    favoritestop_params = %{"name" => name}
+  def create(conn, %{"name" => name, "user_id" => user_id}) do
+    favoritestop_params = %{"name" => name, "user_id" => user_id}
     IO.inspect(favoritestop_params)
     result =  Favoritestops.create_favoritestop(favoritestop_params)
     IO.inspect(result)

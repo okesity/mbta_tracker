@@ -40,7 +40,7 @@ class Root extends Component {
       sessionCreated: false,
     }
     this.fetch_favstops();
-    console.log("check favstop list", this.state.favoritestops);
+    //console.log("check favstop list", this.state.favoritestops);
   }
 
   fetch_path(path, on_success) {
@@ -57,6 +57,7 @@ class Root extends Component {
     this.fetch_path(
       "/api/v1/favoritestops",
       (resp) => {
+        console.log("fetch fav", resp.data);
         let state1 = _.assign({}, this.state, { favoritestops: resp.data });
         this.setState(state1);
       }
@@ -133,7 +134,7 @@ class Root extends Component {
      success: (resp) => {
        console.log("check resp data", resp.data)
        alert("Your Registration is Successful!")
-       history.push('/');
+       history.push('/favorite_stops');
      },
      error: (resp) => {
        alert("login failed, please try again")
@@ -158,19 +159,22 @@ class Root extends Component {
    });
   }
 
-  add_to_favorite(name) {
+  add_to_favorite(name, user_id) {
     $.ajax("/api/v1/favoritestops", {
       method: "post",
       dataType: "json",
       contentType: "application/json; charset=UTF-8",
-      data: JSON.stringify({name}),
+      data: JSON.stringify({name, user_id}),
       success: (resp) => {
         let newfavstops = {
+          id: this.state.favoritestops.length,
           name: name,
+          user_id: parseInt(user_id),
         }
-        let state1 = _.assign({}, this.state, {favoritestops: newfavstops});
-        this.setState(state1);
-        console.log("check state after fav stop is added", state1)
+        let state1 = _.assign({}, this.state, {favoritestops: newfavstops, sessionCreated: true});
+        let state2 = this.state.favoritestops.concat(newfavstops);
+        this.setState(state2);
+        console.log("check state2 after fav stop is added", state2)
         alert("this stop is added")
       },
       error: (resp) => {
@@ -180,31 +184,24 @@ class Root extends Component {
     });
   }
 
-  // add_to_favorite = (name) => {
-  //   $.ajax("/api/v1/favoritestops/", {
-  //     method: "post",
-  //     dataType: "json",
-  //     contentType: "application/json; charset=UTF-8",
-  //     data: JSON.stringify({name}),
-  //     success: (resp) => {
-  //       let newfavstops = {
-  //         name: name,
-  //         route: route,
-  //         directon: direction,
-  //         arrive: arrive,
-  //         depart: depart,
-  //       }
-  //       let state1 = _.assign({}, this.state, {favoritestops: newfavstops});
-  //       this.setState(state1);
-  //       console.log()
-  //       alert("this stop is added")
-  //     },
-  //     error: (resp) => {
-  //       console.log("what is fv data in root", data);
-  //       alert("something is wrong, please try again")
-  //     }
-  //   });
-  // }
+  delete_favoritestop(id) {
+    $.ajax("/api/v1/favoritestops/" + id, {
+     method: "delete",
+     dataType: "json",
+     contentType: "application/json; charset=UTF-8",
+     data: JSON.stringify(id),
+     success: (resp) => {
+       // let state1 = _.assign({}, this.state, { session: resp.data, sessionCreated: true,});
+       let stop1 = _.filter(this.state.favoritestops, (stop) => stop.id != id);
+       console.log();
+       let state1 = _.assign({}, this.state, { favoritestops: stop1, sessionCreated: true,});
+       this.setState(state1);
+     },
+     error: (resp) => {
+       alert("login failed, please try again")
+     }
+   });
+  }
 
   tryout() {
     alert("calling from schedule works")

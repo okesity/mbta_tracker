@@ -4,7 +4,7 @@
 .btnFacebook {
   width: 200px;
   height:35px;
-  border-radius: 4px;
+  border-radius: 20px;
   background: #3b5998;
   color:white;
   padding-left: 15px;
@@ -16,7 +16,7 @@
 .btnGoogle {
   width: 200px;
   height:35px;
-  border-radius: 4px;
+  border-radius: 20px;
   background: #db3236;
   color:white;
   padding-left: 15px;
@@ -101,4 +101,58 @@
       }
     }
   }
+}
+
+// Acknowledgement:
+// The following style classes are from demo in MD Reactbootstrap
+// Source: https://mdbootstrap.com/docs/react/forms/basic/
+.form-elegant .font-small {
+  font-size: 0.8rem;
+ }
+
+.form-elegant .z-depth-1a {
+  -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+  box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
+ }
+
+
+#sign-in-btn, #sign-up-btn {
+  background-color: rgba(36, 133, 255, 0.15);
+  transition: 0.5s;
+  color: #FFF;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px;
+  display: inline-block;
+  border-radius: 25px;
+}
+
+#sign-in-btn {
+  background-image: linear-gradient(to right, #7474BF 0%, #348AC7 51%, #7474BF 100%)
+}
+
+#sign-up-btn {
+  background-image: linear-gradient(to right, #2BC0E4 0%, #EAECC6 51%, #2BC0E4 100%)
+}
+
+#sign-in-button:hover {
+  // background-position: right center;
+  margin: 8px 10px 12px;
+}
+
+#sign-up-button:hover {
+  // background-position: right, center;
+  margin: 8px 10px 12px;
+}
+
+.label {
+  font-size: 0.8rem;
+}
+
+#login-email, #login-password, #sign-name, #sign-password, #sign-email {
+  border-radius: 25px;
+}
+
+#sign-up-btn {
+  border-radius: 25px;
 }
