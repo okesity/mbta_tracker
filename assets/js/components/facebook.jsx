@@ -14,19 +14,24 @@ export default function Facebook(props) {
   };
 
   const responseFacebook = (response) => {
-    console.log(response);
+    console.log("fb resp", response);
   }
 
 
   function responseFacebook1(responseFacebook) {
-    // craete a new session here so that the session in main won't be null.
-    // write one more create function specifically for soical oauth login in session controller.
-    // if it's necessary, write another createsession function in root.jsx
-    // props.root.createOauthUser(responseFacebook.name, responseFacebook.email);
-    props.root.createOauthSession(responseFacebook.name, responseFacebook.email);
-    console.log("check fb data", responseFacebook.email);
-    console.log("check root in fb", props.root);
-    console.log("FB ROOT session", props.root.state.session);
+    var listofusers = props.root.state.users;
+    var username = listofusers.map(function(user){return user.name});
+    console.log("check names", username);
+
+    if(username.includes(responseFacebook.name)) {
+      props.root.createOauthSession(responseFacebook.name, responseFacebook.email)
+    } else {
+      props.root.createOauthUser(responseFacebook.name, responseFacebook.email, "");
+      setTimeout(function(){
+        console.log("hereherehererere",responseFacebook.name, responseFacebook.email);
+        props.root.createOauthSession(responseFacebook.name, responseFacebook.email)
+      }, 2000);
+    }
   };
 
   let fbContent = (

@@ -67,14 +67,3 @@ export default function Header(props) {
 
   );
 }
-
-// style={{backgroundColor: "#e3f2fd"}
-// <Navbar id="header" expand="md" fixed="top" scrolling>
-//   <NavbarBrand href="/">
-//         <strong>MBTA Tracker</strong>
-//   </NavbarBrand>
-//     <NavItem active>
-//       { ul_info }
-//       { session_info }
-//     </NavItem>
-// </Navbar>

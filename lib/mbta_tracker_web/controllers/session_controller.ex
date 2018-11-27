@@ -21,6 +21,7 @@ defmodule MbtaTrackerWeb.SessionController do
   end
 
   def create2(conn, %{"name" => name, "email" => email}) do
+    IO.puts("HERE create2")
     result = MbtaTracker.Users.get_user_by_email(email)
     IO.inspect(result)
     with %User{} = user <- result do

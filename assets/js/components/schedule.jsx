@@ -130,10 +130,22 @@ class Schedule extends Component {
     var displayTime = this.displayTime;
     var here = this.state;
     let schedule_session_view;
-    // const selectedRoute = this.state.selectedRoute;
-    // const selectedStop = this.state.selectedStop;
-    console.log(this.state.selectedRoute);
-    console.log("check session in schedule", here.root.state.session);
+    // let listofstops = here.root.state.favoritestops;
+    // var userfav = listofstops.filter((stop) => {
+    //   return stop.user_id == here.root.state.session.user_id
+    // })
+
+    // let button_view;
+    // if(userfav.includes(here.selectedStop)) {
+    //   button_view = <Button outline color="danger">This Stop is already added</Button>
+    // } else {
+    //   button_view = <div><p style={{fontSize: '18px', color: '#2BBBAD'}}>Click to save this stop to your favoritestops &#10145;</p>
+    //     <Button outline color="info"s style={{borderRadius: '20px', marginLeft: "375px", marginTop: '-80px'}}onClick={()=>{
+    //       console.log("check here stop name", here.selectedStop);
+    //       console.log("check here schedule session user id", here.root.state.session.user_id)
+    //       here.root.add_to_favorite(here.selectedStop, here.root.state.session.user_id);}}>Save</Button></div>;
+    // }
+
     if(here.root.state.session == null) {
       schedule_session_view = null;
     } else {
@@ -143,6 +155,8 @@ class Schedule extends Component {
           console.log("check here schedule session user id", here.root.state.session.user_id)
           here.root.add_to_favorite(here.selectedStop, here.root.state.session.user_id);}}>Save</Button></div>;
     }
+
+    //if(root.state.session.userfav)
       return(<div className="container">
         <div>
         <h3 style={{marginTop: '50px'}}>Search station to see the schedule</h3>
@@ -189,16 +203,6 @@ class Schedule extends Component {
         </Table>
       </div>
     </div>)
-    // }
   }
 }
 export default Schedule;
-// <div>
-//   <Timeline items={events} />
-// </div>
-
-//    <td>{this.state.predictions.map(function(prediction){prediction.depart})}</td>
-//    <td><Button onClick={(props) => this.state.root.add_to_favorite(plabel)}>Save</Button></td>
-//    </tr>
-
-//<Timeline items={events} />
