@@ -101,7 +101,7 @@ class MapElement extends Component {
     if(data.length>0){
       let points = [];
       for(let i=0;i<data.length-1;i++)
-        if(data[i].attributes.priority>=1)
+        if(data[i].attributes.priority>=0)
           points = _.union(points, polyline.decode(data[i].attributes.polyline));
       points = points.map(function(point){ return {lat: point[0], lng: point[1]}; });
       this.setState({bounds: points});

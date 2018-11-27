@@ -197,13 +197,12 @@ class Root extends Component {
       data: JSON.stringify({name, user_id}),
       success: (resp) => {
         let newfavstops = {
-          id: this.state.favoritestops.length,
+          id: resp.data.id,
           name: name,
           user_id: parseInt(user_id),
         }
-        let state1 = _.assign({}, this.state, {favoritestops: newfavstops, sessionCreated: true});
         let state2 = this.state.favoritestops.concat(newfavstops);
-        this.setState(state2);
+        this.setState({favoritestops:state2});
         console.log("check state2 after fav stop is added", state2)
         swal({
           title: "this stop is added",
@@ -275,7 +274,7 @@ class Root extends Component {
           } />
 
         <Route path="/favorite_stops" exact={true} render={() =>
-              <FavoriteStops root={this} />
+              <FavoriteStops root={this} favoritestops={this.state.favoritestops} />
           } />
       </div>
       </div>
