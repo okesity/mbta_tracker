@@ -21,3 +21,30 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Mailing list: http://groups.google.com/group/phoenix-talk
   * Source: https://github.com/phoenixframework/phoenix
+
+## MBTA Tracker 
+## Overview
+  * Our app allows users to interact with the google map and see different routes 
+   by clicking different buttons and check schedules for a specific stop and route.
+   For purpose of a better user experiences, users could interact with the maps
+   and routes without login, and after they login
+   they could add the stops to their favorite list.
+ * Users will only see the favorite stops that they added. 
+ * Deletion of a certain favorite stop is also supported.
+ * Users could either choose to register an account or login using facebook.
+## External APIs
+ * Soical Oauth(facebook)
+ * Google Map API
+ * MBTA API 
+## Features
+ * Implementing single page application using react-router 
+## Tools & Libraries
+ * react-google-login
+ * react-maps-google
+ * react-strap
+ * mdbreact
+ * react-sweatalert
+ * mdbootstrap
+## References
+ * Using part of the css code from the following source
+ * Source: https://mdbootstrap.com/docs/react/forms/basic/
