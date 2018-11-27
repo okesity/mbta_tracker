@@ -11,6 +11,7 @@ import Login from './login';
 import schedule from './schedule';
 import _ from 'lodash';
 import ScheduleTable from './scheduletable';
+import Name from './name';
 
 export default function FavoriteStops(props) {
   let {root, favoritestops} = props;
@@ -29,7 +30,7 @@ export default function FavoriteStops(props) {
         <Table hover>
           <thead className="thead-light" style={{fontSize: '20px'}}>
             <tr>
-              <th>Stop Name</th>
+              <th>Favorite Stop</th>
               <th></th>
               <th>Options</th>
             </tr>
@@ -38,8 +39,9 @@ export default function FavoriteStops(props) {
             userfav.map(function(fav){
               return <tr>
               
-                <td>{fav.name}</td>
-                <td><div class="collapse" id={"collapseTable"+fav.name}><ScheduleTable stop={fav.name} /></div></td>
+            <td colspan='2'>
+            <Name stop={fav.name}/>
+                <div className="collapse" id={"collapseTable"+fav.name}><ScheduleTable stop={fav.name} /></div></td>
                 <td>
                   <Button outline color="info" style={{borderRadius: '20px'}}
                   type="button" data-toggle="collapse" 

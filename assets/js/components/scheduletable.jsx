@@ -22,7 +22,6 @@ class ScheduleTable extends Component {
 
   getPrediction(stop){
     var stopID=stop;
-    var routeName='';
     if(this.state.selectedRoute)      //check if preset value exsist
       routeName=this.state.selectedRoute;
     var prediction_data = [];
@@ -38,8 +37,7 @@ class ScheduleTable extends Component {
        prediction_data = route_data.map(function(p) {
           return {arrive: p.attributes.arrival_time,
                  depart: p.attributes.departure_time,
-                 direction: p.attributes.direction_id,
-                 route: p.relationships.route.data.id}
+                 direction: p.attributes.direction_id}
        });
        this.setState({predictions: prediction_data});
     })
@@ -66,10 +64,9 @@ class ScheduleTable extends Component {
       return(<div className="container">
         <div>
         <br />
-        <Table hover>
+        <Table>
           <thead className="thead-light" style={{fontSize: '10px'}}>
             <tr>
-              <th>Route</th>
               <th>Direction</th>
               <th>Arrival Time</th>
               <th>Departure Time</th>
@@ -80,7 +77,6 @@ class ScheduleTable extends Component {
             {
               this.state.predictions.map(function(prediction){
                 return <tr>
-                  <td>{prediction.route}</td>
                   <td>{prediction.direction?'InBoard':'OutBoard'}</td>
                   <td>{displayTime(prediction.arrive)}</td>
                   <td>{displayTime(prediction.depart)}</td>
